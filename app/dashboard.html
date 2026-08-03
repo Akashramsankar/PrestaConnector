@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrestaShop Connector Dashboard</title>
+  <script src="{{{appclient}}}"></script>
+  <style>
+    :root {
+      --prestashop:         #f26322;
+      --prestashop-d:       #d9531e;
+      --prestashop-dd:      #b8410f;
+      --primary:     #f26322;
+
+      --text:        #1c2230;
+      --muted:       #5c6675;
+      --muted-2:     #8b93a1;
+      --border:      #e4e7ec;
+      --border-soft: #eef0f4;
+      --surface:     #ffffff;
+      --surface-soft:#f8f9fc;
+      --bg:          #f4f5f8;
+
+      --amount:      #b45309;
+      --success:     #0f7a5f;
+      --success-bg:  #e6f5ef;
+      --danger:      #c0393b;
+      --danger-bg:   #fdeeee;
+      --info:        #d9531e;
+
+      --radius:      14px;
+      --radius-sm:   10px;
+      --shadow:      0 6px 20px rgba(18,23,32,0.06);
+      --shadow-sm:   0 1px 2px rgba(18,23,32,0.05);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    button, a { font: inherit; }
+    a { color: var(--prestashop); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* ── Hero ───────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--prestashop) 0%, var(--prestashop-dd) 100%);
+      color: #fff;
+      padding: 26px 28px;
+      box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .hero-logo {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: rgba(255,255,255,0.16);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-logo svg { width: 21px; height: 21px; }
+    .eyebrow {
+      margin: 0;
+      color: rgba(255,255,255,0.78);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .hero h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+    .hero p {
+      margin: 8px 0 0;
+      font-size: 13.5px;
+      line-height: 1.6;
+      max-width: 720px;
+      color: rgba(255,255,255,0.85);
+    }
+    .hero-actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .status {
+      color: rgba(255,255,255,0.8);
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .status::before {
+      content: "";
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 0 3px rgba(74,222,128,0.25);
+    }
+
+    /* ── Buttons ────────────────────────────────────────────── */
+    .btn {
+      min-height: 38px;
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      background: #fff;
+      color: var(--prestashop-d);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn:hover:not(:disabled) { background: #f4eefc; }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ── Message ────────────────────────────────────────────── */
+    .message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .message.info, .message.success, .message.error { display: block; }
+    .message.info { background: #fdf0e8; border-color: #f7d2bd; color: var(--info); }
+    .message.success { background: var(--success-bg); border-color: #a9dcc9; color: var(--success); }
+    .message.error { background: var(--danger-bg); border-color: #f0bdb8; color: var(--danger); }
+
+    /* ── Metric tiles ───────────────────────────────────────── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .metric-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-2);
+    }
+    .metric-value {
+      margin-top: 10px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .metric-value.is-amount { color: var(--amount); }
+    .metric-copy { margin: 8px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Cards / grid ───────────────────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .card h2 { margin: 0; font-size: 15px; font-weight: 700; }
+    .card-copy { margin: 6px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+    .stack { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+    .row {
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      background: var(--surface-soft);
+      padding: 14px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .row:hover { border-color: var(--border); background: #fff; }
+    .row-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .row-title { font-size: 13.5px; font-weight: 700; }
+    .row-copy { margin-top: 7px; font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .pill::before {
+      content: "";
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; opacity: 0.9;
+    }
+    .pill-success { background: var(--success-bg); color: var(--success); }
+    .pill-muted { background: #eef0f3; color: #5f6a78; }
+
+    .empty-state {
+      border: 1.5px dashed #d3d8e0;
+      border-radius: var(--radius-sm);
+      background: var(--surface-soft);
+      padding: 20px 16px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.7;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    @media (max-width: 1040px) {
+      .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .page { padding: 16px; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .hero { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-brand">
+        <span class="hero-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 7.5h18M6 7.5V6a2 2 0 0 1 2-2h1.5M18 7.5V6a2 2 0 0 0-2-2h-1.5M5 7.5l1 11a2 2 0 0 0 2 1.8h8a2 2 0 0 0 2-1.8l1-11" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <p class="eyebrow">PrestaShop Connector</p>
+      </div>
+      <h1>Live Connector Insights</h1>
+      <p>
+        Review store coverage, live customer and order counts, order statuses, and recent PrestaShop activity
+        gathered through the connected stores in this connector.
+      </p>
+      <div class="hero-actions">
+        <button type="button" class="btn" id="refreshBtn">Refresh</button>
+        <span class="status" id="statusLine">Ready</span>
+      </div>
+    </section>
+
+    <div id="pageMessage" class="message"></div>
+
+    <section class="metrics">
+      <article class="metric">
+        <div class="metric-label">Freshdesk</div>
+        <div class="metric-value" id="freshdeskValue" style="font-size:18px">-</div>
+        <p class="metric-copy">Connection status.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-label">Stores</div>
+        <div class="metric-value" id="connectedStoresValue">0</div>
+        <p class="metric-copy">Connected stores.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-label">Verified</div>
+        <div class="metric-value" id="verifiedStoresValue">0</div>
+        <p class="metric-copy">Verified during setup.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-label">Customers</div>
+        <div class="metric-value" id="customersValue">0</div>
+        <p class="metric-copy">Loaded from live stores.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-label">Orders</div>
+        <div class="metric-value" id="ordersValue">0</div>
+        <p class="metric-copy">All live store orders.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-label">Revenue</div>
+        <div class="metric-value is-amount" id="revenueValue">0</div>
+        <p class="metric-copy">All loaded order revenue.</p>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Status Breakdown</h2>
+        <p class="card-copy">Order statuses gathered across all connected stores.</p>
+        <div id="statusList" class="stack"></div>
+        <div id="statusEmptyState" class="empty-state">No live order statuses available yet.</div>
+      </article>
+
+      <article class="card">
+        <h2>Store Performance</h2>
+        <p class="card-copy">Quick per-store visibility into customers, orders, and revenue.</p>
+        <div id="storeInsightsList" class="stack"></div>
+        <div id="storeInsightsEmptyState" class="empty-state">No store insight data available yet.</div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Recent Orders</h2>
+      <p class="card-copy">Latest PrestaShop orders found across connected stores.</p>
+      <div id="recentOrdersList" class="stack"></div>
+      <div id="recentOrdersEmptyState" class="empty-state">No recent orders available yet.</div>
+    </section>
+
+    <section class="card">
+      <h2>Connector Settings</h2>
+      <p class="card-copy">Current install-time toggles that affect search, actions, and sync behavior.</p>
+      <div id="featuresList" class="stack"></div>
+    </section>
+  </div>
+
+  <script src="./scripts/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+{
+  "verify_freshdesk_credentials": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= context.domain %>",
+      "path": "/api/v2/agents/me",
+      "headers": {
+        "Authorization": "Basic <%= context.encoded_auth %>",
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  "verify_prestashop_store_live": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= context.store_host %>",
+      "path": "<%= context.request_path %>",
+      "headers": {
+        "Authorization": "<%= context.authorization %>",
+        "Content-Type": "application/json",
+        "Output-Format": "JSON"
+      }
+    }
+  },
+  "freshdesk_get_live": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= context.domain %>",
+      "path": "<%= context.request_path %>",
+      "headers": {
+        "Authorization": "Basic <%= context.encoded_auth %>",
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  "freshdesk_post_live": {
+    "schema": {
+      "method": "POST",
+      "host": "<%= context.domain %>",
+      "path": "<%= context.request_path %>",
+      "headers": {
+        "Authorization": "Basic <%= context.encoded_auth %>",
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  "freshdesk_put_live": {
+    "schema": {
+      "method": "PUT",
+      "host": "<%= context.domain %>",
+      "path": "<%= context.request_path %>",
+      "headers": {
+        "Authorization": "Basic <%= context.encoded_auth %>",
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  "prestashop_get_live": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= context.store_host %>",
+      "path": "<%= context.request_path %>",
+      "headers": {
+        "Authorization": "<%= context.authorization %>",
+        "Content-Type": "application/json",
+        "Output-Format": "JSON"
+      }
+    }
+  },
+  "prestashop_post_live": {
+    "schema": {
+      "method": "POST",
+      "host": "<%= context.store_host %>",
+      "path": "<%= context.request_path %>",
+      "headers": {
+        "Authorization": "<%= context.authorization %>",
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  "prestashop_put_live": {
+    "schema": {
+      "method": "PUT",
+      "host": "<%= context.store_host %>",
+      "path": "<%= context.request_path %>",
+      "headers": {
+        "Authorization": "<%= context.authorization %>",
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  "prestashop_delete_live": {
+    "schema": {
+      "method": "DELETE",
+      "host": "<%= context.store_host %>",
+      "path": "<%= context.request_path %>",
+      "headers": {
+        "Authorization": "<%= context.authorization %>",
+        "Content-Type": "application/json"
+      }
+    }
+  }
+}

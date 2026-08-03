@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrestaShop Connector for Freshdesk</title>
+  <script src="{{{appclient}}}"></script>
+  <link rel="stylesheet" href="https://static.freshdev.io/fdk/2.0/assets/freshworks.css" />
+  <style>
+    :root {
+      --page-bg: #f8fafc;
+      --panel-bg: #ffffff;
+      --border: #d7dee7;
+      --muted: #576c7d;
+      --text: #12344d;
+      --primary: #1f3e57;
+      --primary-hover: #173246;
+      --danger: #b42318;
+      --danger-soft: #fff1ef;
+      --success: #0a6a31;
+      --success-soft: #edf9f1;
+      --info: #0b5cab;
+      --info-soft: #f0f7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 28px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: var(--page-bg);
+    }
+
+    .container {
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .back-indicator {
+      font-size: 30px;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .page-header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .page-header-copy {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .build-stamp {
+      display: inline-flex;
+      align-items: center;
+      margin-left: auto;
+      padding: 6px 10px;
+      border: 1px solid #bfd7ff;
+      border-radius: 4px;
+      background: #eef6ff;
+      color: #0b5cab;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tabs {
+      display: flex;
+      align-items: flex-end;
+      min-height: 36px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #e5ebf1;
+      background: #f2f5f8;
+    }
+
+    .tab {
+      padding: 11px 14px 9px;
+      font-size: 14px;
+      color: #1d4ed8;
+      border-bottom: 2px solid #1d4ed8;
+      background: transparent;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .settings-panel {
+      min-width: 0;
+    }
+
+    .side-card {
+      background: var(--panel-bg);
+      border: 1px solid #e5ebf1;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .side-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .side-card-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      object-fit: contain;
+      background: #f2f5f8;
+      padding: 4px;
+    }
+
+    .side-card-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .side-card-copy {
+      margin: 0 0 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #c7d2fe;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+      color: #1d4ed8;
+      background: #eef2ff;
+    }
+
+    .build-note {
+      margin-top: 12px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .app-link {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 14px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      font-size: 13px;
+      color: #1d4ed8;
+      cursor: default;
+    }
+
+    .section {
+      margin-bottom: 26px;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .section-copy {
+      margin: 0 0 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field-grid.two-column {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field.full-span {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 14px;
+      color: var(--text);
+      background: #ffffff;
+    }
+
+    .field input,
+    .field select {
+      height: 38px;
+    }
+
+    .field textarea {
+      min-height: 78px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: 2px solid rgba(29, 78, 216, 0.12);
+      border-color: #1d4ed8;
+    }
+
+    .helper-text {
+      margin-top: 6px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #7b8a97;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 166px;
+      height: 38px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease, opacity 0.15s ease;
+    }
+
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .button-primary {
+      color: #ffffff;
+      background: var(--primary);
+    }
+
+    .button-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .button-secondary {
+      color: var(--primary);
+      background: #eaf0f5;
+    }
+
+    .button-danger {
+      color: var(--danger);
+      background: var(--danger-soft);
+      min-width: 0;
+      padding: 0 14px;
+    }
+
+    .status-line {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .store-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .store-card,
+    .field-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      background: var(--panel-bg);
+    }
+
+    .field-defaults-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .field-card-title {
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .field-default-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .store-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .store-card-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .message {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message.info {
+      display: block;
+      color: var(--info);
+      background: var(--info-soft);
+      border-color: #b9d8ff;
+    }
+
+    .message.success {
+      display: block;
+      color: var(--success);
+      background: var(--success-soft);
+      border-color: #9fd3ad;
+    }
+
+    .message.error {
+      display: block;
+      color: var(--danger);
+      background: var(--danger-soft);
+      border-color: #f0b3ac;
+    }
+
+    .checkbox-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .checkbox-row input {
+      margin-top: 3px;
+    }
+
+    @media (max-width: 1100px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .side-card {
+        max-width: 340px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 20px;
+      }
+
+      .field-grid,
+      .field-grid.two-column,
+      .field-default-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .store-card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="page-header">
+      <span class="back-indicator" aria-hidden="true">&#8249;</span>
+      <div>
+        <h1>Configuration</h1>
+        <p class="page-header-copy">Build marker: <strong>2026-07-31 hide-refunds-v1</strong></p>
+      </div>
+      <div class="build-stamp">Build 2026-07-31 hide-refunds-v1</div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab">Settings</div>
+    </div>
+
+    <div class="content-grid">
+      <div class="settings-panel">
+        <section class="section">
+          <h2 class="section-title">General Settings</h2>
+          <div class="field-grid two-column">
+            <div class="field">
+              <label for="domain">Freshdesk Domain *</label>
+              <input id="domain" type="text" placeholder="subdomain.freshdesk.com" />
+            </div>
+            <div class="field">
+              <label for="apiKey">Agent API Key *</label>
+              <input id="apiKey" type="password" placeholder="Freshdesk API Key" />
+            </div>
+          </div>
+          <div class="action-row">
+            <button type="button" class="button button-primary" id="verifyFreshdeskBtn">Validate</button>
+            <span class="status-line" id="freshdeskStatusLine">Not verified</span>
+          </div>
+          <div id="freshdeskMessage" class="message"></div>
+        </section>
+
+        <section class="section is-hidden" id="freshdeskRequiredFieldsSection">
+          <h2 class="section-title">Freshdesk Required Field Defaults</h2>
+          <p class="section-copy">
+            Map default values for mandatory Freshdesk ticket and contact fields used when PrestaShop events create records automatically.
+          </p>
+          <div class="action-row">
+            <button type="button" class="button button-secondary is-hidden" id="loadFreshdeskFieldsBtn">Retry</button>
+            <span class="status-line" id="freshdeskFieldsStatusLine">Not loaded</span>
+          </div>
+          <div id="freshdeskFieldsMessage" class="message"></div>
+          <div id="freshdeskRequiredFieldsContainer" class="field-defaults-list"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-copy">
+            Add one or more PrestaShop stores to connect with this Freshdesk account.
+          </div>
+          <div class="helper-text">
+            Use the Freshworks PrestaShop module token for the smoothest setup. Native PrestaShop webservice keys are also supported for live customer and order reads.
+          </div>
+          <div id="storesContainer" class="store-list"></div>
+          <div class="action-row">
+            <button type="button" class="button button-primary" id="addStoreBtn">Add Store</button>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Sync Events</h2>
+          <p class="section-copy">
+            Choose which PrestaShop events should trigger automatic Freshdesk updates.
+          </p>
+          <div class="checkbox-list">
+            <label class="checkbox-row" for="syncContactOnCustomerCreated">
+              <input type="checkbox" id="syncContactOnCustomerCreated" />
+              <span>Create contact when customer is created</span>
+            </label>
+            <label class="checkbox-row" for="syncContactOnCustomerUpdated">
+              <input type="checkbox" id="syncContactOnCustomerUpdated" />
+              <span>Update contact when customer is updated</span>
+            </label>
+            <label class="checkbox-row" for="syncTicketOnCustomerCreated">
+              <input type="checkbox" id="syncTicketOnCustomerCreated" />
+              <span>Create ticket when customer is created</span>
+            </label>
+            <label class="checkbox-row" for="syncTicketOnOrderCreated">
+              <input type="checkbox" id="syncTicketOnOrderCreated" />
+              <span>Create ticket when order is created</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Sync Support</h2>
+          <p class="section-copy">
+            Webhook delivery is configured automatically after you save the app settings for stores using the Freshworks PrestaShop module.
+          </p>
+          <div class="helper-text">
+            Use this only if a store credential changed, webhook delivery was interrupted, or support needs to repair the sync setup. Save the page afterward if you changed any settings.
+          </div>
+          <div class="action-row">
+            <button type="button" class="button button-secondary" id="reconnectSyncBtn">Repair Sync</button>
+          </div>
+          <div id="syncMessage" class="message"></div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Advanced Settings</h2>
+          <div class="checkbox-list">
+            <label class="checkbox-row" for="showOrderDataInOrderTab">
+              <input type="checkbox" id="showOrderDataInOrderTab" />
+              <span>Show order data in order tab</span>
+            </label>
+            <label class="checkbox-row" for="displayNotFoundOnlyWhenAllStoresEmpty">
+              <input type="checkbox" id="displayNotFoundOnlyWhenAllStoresEmpty" />
+              <span>Display "Data not found" message only when all stores returns empty data</span>
+            </label>
+            <label class="checkbox-row" for="allowAgentCancelOrders">
+              <input type="checkbox" id="allowAgentCancelOrders" />
+              <span>Allow agent to cancel orders</span>
+            </label>
+            <label class="checkbox-row" for="allowAgentUpdateShippingAddress">
+              <input type="checkbox" id="allowAgentUpdateShippingAddress" />
+              <span>Allow agent to request shipping address updates</span>
+            </label>
+          </div>
+        </section>
+      </div>
+
+      <aside class="side-card">
+        <div class="side-card-header">
+          <img class="side-card-logo" src="../app/icon.svg" alt="PrestaShop Connector" />
+          <h3 class="side-card-title">PrestaShop Connector</h3>
+        </div>
+        <p class="side-card-copy">
+          Connect your Freshdesk account with one or more PrestaShop stores.
+        </p>
+        <span class="badge">Paid</span>
+        <div class="build-note">
+          Installed bundle should show:<br />
+          <strong>2026-07-31 hide-refunds-v1</strong>
+        </div>
+        <button type="button" class="app-link">View App info</button>
+      </aside>
+    </div>
+  </div>
+
+  <script src="./assets/iparams.js"></script>
+</body>
+</html>

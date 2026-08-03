@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrestaShop Connector</title>
+  <script src="{{{appclient}}}"></script>
+  <style>
+    :root {
+      /* PrestaShop brand orange + support neutrals */
+      --prestashop:         #f26322;
+      --prestashop-d:       #d9531e;
+      --prestashop-dd:      #b8410f;
+      --primary:     #f26322;
+      --primary-h:   #d9531e;
+      --primary-bg:  #fdf0e8;
+      --link:        #2f6fed;
+
+      --text:        #1c2230;
+      --heading:     #12172099;
+      --muted:       #6b7280;
+      --muted-2:     #9aa2ae;
+      --border:      #e2e5ea;
+      --border-soft: #eef0f4;
+      --surface:     #ffffff;
+      --bg:          #f4f5f8;
+
+      --amount:      #b45309;   /* currency emphasis (echoes reference) */
+      --success:     #0f7a5f;
+      --success-bg:  #e6f5ef;
+      --warn:        #9a6a00;
+      --warn-bg:     #fbf1dc;
+      --danger:      #c0393b;
+      --danger-bg:   #fdeeee;
+
+      --radius:      10px;
+      --radius-sm:   7px;
+      --shadow-sm:   0 1px 2px rgba(18,23,32,0.06);
+      --shadow:      0 4px 14px rgba(18,23,32,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { height: 100%; }
+    body {
+      height: 100%;
+      overflow-y: auto;
+      font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select { font: inherit; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── App header ─────────────────────────────────────────── */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--prestashop) 0%, var(--prestashop-dd) 100%);
+      padding: 8px 12px;
+      color: #fff;
+    }
+    .app-header-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .app-logo {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .app-logo svg { width: 13px; height: 13px; display: block; }
+    .app-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+      flex: 1;
+      min-width: 0;
+    }
+    .count-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 19px;
+      height: 18px;
+      padding: 0 6px;
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .app-subtitle {
+      margin-top: 5px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Primary customer summary in the orange header ──────── */
+    .header-customer {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .hc-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hc-name {
+      flex: 1;
+      min-width: 0;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .hc-name a { color: #fff; }
+    .hc-rows {
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .hc-row { display: flex; gap: 10px; align-items: baseline; }
+    .hc-k {
+      flex: 0 0 auto;
+      min-width: 84px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.58);
+    }
+    .hc-v {
+      min-width: 0;
+      font-size: 11.5px;
+      color: #fff;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+    .hc-amount { color: #ffcf99; }
+
+    /* ── Body sections ──────────────────────────────────────── */
+    /* Flat, edge-to-edge sheet — sections span the full sidebar width and
+     * are separated by hairline dividers instead of nested card chrome, so
+     * content gets the maximum usable horizontal space. */
+    .app-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+    }
+    .section {
+      background: var(--surface);
+      padding: 13px 12px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .section:last-child { border-bottom: none; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    /* ── Form controls ──────────────────────────────────────── */
+    .fw-input, .fw-select {
+      height: 30px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 12px;
+      padding: 0 9px;
+      width: 100%;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .fw-input::placeholder { color: var(--muted-2); }
+    .fw-input:focus, .fw-select:focus {
+      border-color: var(--prestashop);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(127,84,179,0.14);
+    }
+    .fw-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 11px center;
+      padding-right: 28px;
+      cursor: pointer;
+    }
+
+    /* ── Buttons ────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
+    }
+    .btn:hover:not(:disabled) { background: var(--bg); border-color: #cfd4dc; }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-primary {
+      background: var(--prestashop);
+      border-color: var(--prestashop);
+      color: #fff;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--prestashop-d); border-color: var(--prestashop-d); }
+    .btn-sm { height: 25px; padding: 0 8px; font-size: 11px; }
+
+    /* Compact square icon button used by the two search bars */
+    .btn-icon {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--prestashop);
+      background: var(--prestashop);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .btn-icon:hover:not(:disabled) { background: var(--prestashop-d); border-color: var(--prestashop-d); }
+    .btn-icon:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-icon svg { width: 15px; height: 15px; display: block; }
+    .btn-icon.btn-ghost {
+      background: var(--surface);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    .btn-icon.btn-ghost:hover:not(:disabled) { background: var(--bg); border-color: #cfd4dc; color: var(--text); }
+
+    /* ── Search section ─────────────────────────────────────── */
+    .search-input-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .search-input-row .fw-input { flex: 1; min-width: 0; }
+    .search-input-row .btn      { flex-shrink: 0; }
+    .global-search-row { margin-bottom: 8px; }
+    .refresh-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+    .refresh-row .btn {
+      min-width: 86px;
+      height: 28px;
+      padding: 0 12px;
+    }
+    .search-type-row { margin-bottom: 8px; }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+      gap: 7px;
+    }
+    .action-row .btn { width: 100%; min-width: 0; }
+
+    /* ── Message banner ─────────────────────────────────────── */
+    .message {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid transparent;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .message.info, .message.success, .message.error { display: block; }
+    .message.info    { background: var(--primary-bg); border-color: #f7d2bd; color: var(--prestashop-d); }
+    .message.success { background: var(--success-bg); border-color: #a9dcc9; color: var(--success); }
+    .message.error   { background: var(--danger-bg);  border-color: #f0c4c6; color: var(--danger); }
+
+    .helper-copy {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── Filters ────────────────────────────────────────────── */
+    .filter-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+      gap: 8px;
+    }
+    .filter-row .fw-select { min-width: 0; }
+
+    /* ── Empty state ────────────────────────────────────────── */
+    .empty-state {
+      padding: 22px 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12.5px;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius-sm);
+      line-height: 1.6;
+      background: #fbfbfd;
+    }
+    .empty-state .empty-icon {
+      display: block;
+      margin: 0 auto 8px;
+      opacity: 0.5;
+    }
+
+    /* ── Section stack ──────────────────────────────────────── */
+    .section-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── Card (collapsible) ─────────────────────────────────── */
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      overflow: hidden;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .card.is-open { border-color: #d4d8df; box-shadow: var(--shadow-sm); }
+
+    /* Clickable header that toggles the body */
+    .disc-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      cursor: pointer;
+      user-select: none;
+      background: var(--surface);
+      transition: background 0.12s;
+    }
+    .disc-head:hover { background: #fafafc; }
+    .disc-main { flex: 1; min-width: 0; }
+    .disc-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .disc-title a { color: var(--link); }
+    .disc-sub {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      min-width: 0;
+    }
+    .disc-sub-txt {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .disc-sub .pill { flex-shrink: 0; font-size: 10px; padding: 2px 7px; }
+    .disc-side {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .disc-amount {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--amount);
+      white-space: nowrap;
+    }
+    .chevron {
+      width: 18px;
+      height: 18px;
+      color: var(--muted-2);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .card.is-open .chevron { transform: rotate(180deg); color: var(--prestashop); }
+
+    /* Strip that stays visible even when collapsed (status pills etc.) */
+    .disc-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 0 12px 12px;
+    }
+    .items-count { font-size: 11.5px; color: var(--muted); }
+
+    /* Customer summary rows — always visible, label → value like the
+     * reference: uppercase muted label, value alongside. */
+    .cust-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 0 12px 12px;
+    }
+    .cust-row { display: flex; gap: 12px; align-items: baseline; }
+    .cust-k {
+      flex: 0 0 auto;
+      min-width: 92px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-2);
+    }
+    .cust-v {
+      min-width: 0;
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+    .cust-amount { color: var(--amount); font-weight: 700; }
+
+    /* Collapsible body */
+    .card-body { display: none; border-top: 1px solid var(--border-soft); }
+    .card.is-open > .card-body { display: block; }
+
+    /* Pills */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .pill::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.9;
+    }
+    .pill-plain::before { display: none; }
+    .pill-success { background: var(--success-bg); color: var(--success); }
+    .pill-muted   { background: #eef0f3;           color: #5f6a78; }
+    .pill-info    { background: var(--primary-bg);  color: var(--prestashop-d); }
+    .pill-warn    { background: var(--warn-bg);     color: var(--warn); }
+
+    /* ── Meta grid ──────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--border-soft);
+    }
+    .meta-block, .card-grid > .field { min-width: 0; }
+    .meta-value, .address { overflow-wrap: anywhere; }
+    .meta-block {
+      background: var(--surface);
+      padding: 10px 12px;
+    }
+    .card-grid > .field {
+      background: var(--surface);
+      padding: 10px 12px;
+    }
+    .meta-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--muted-2);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 4px;
+    }
+    .meta-value, .address {
+      font-size: 12.5px;
+      color: var(--text);
+      line-height: 1.55;
+      white-space: pre-line;
+    }
+
+    /* Key/value rows used for the totals breakdown */
+    .kv { display: flex; flex-direction: column; gap: 5px; }
+    .kv-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .kv-row .k { font-size: 11.5px; color: var(--muted); min-width: 0; }
+    /* currency values must never break mid-number */
+    .kv-row .v { font-size: 12.5px; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; flex-shrink: 0; }
+    .kv-row.total { padding-top: 6px; border-top: 1px dashed var(--border); margin-top: 2px; }
+    .kv-row.total .k { color: var(--text); font-weight: 700; }
+    .kv-row.total .v { color: var(--amount); font-weight: 700; font-size: 13.5px; }
+
+    /* Body block wrapper for a labelled section inside the card body */
+    .body-block { padding: 12px; border-top: 1px solid var(--border-soft); }
+    .body-block:first-child { border-top: none; }
+    .card-body > .card-grid:first-child { border-top: none; }
+
+    /* Label → value row: label fixed-width left, value wraps on the right.
+     * Used for short text fields (methods) so nothing ever overlaps. */
+    .info-row { display: flex; gap: 10px; align-items: baseline; }
+    .info-row + .info-row { margin-top: 6px; }
+    .info-k {
+      flex: 0 0 auto;
+      min-width: 62px;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    .info-v {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 12.5px;
+      color: var(--text);
+      overflow-wrap: anywhere;
+    }
+
+    /* Collapsible field (addresses): one truncated line, expands on click.
+     * Uses native <details> so it needs no JS state. */
+    details.addr + details.addr,
+    .info-row + details.addr,
+    details.addr + .info-row { margin-top: 8px; }
+    .addr-sum {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .addr-sum::-webkit-details-marker { display: none; }
+    .addr-sum:hover .addr-oneline { color: var(--prestashop-d); }
+    .addr-oneline {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 12.5px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .addr-chevron {
+      width: 14px;
+      height: 14px;
+      color: var(--muted-2);
+      flex-shrink: 0;
+      margin-left: auto;
+      transition: transform 0.2s ease;
+    }
+    details.addr[open] .addr-chevron { transform: rotate(180deg); color: var(--prestashop); }
+    details.addr[open] .addr-oneline { display: none; }
+    .addr-full {
+      margin-top: 6px;
+      font-size: 12.5px;
+      color: var(--text);
+      line-height: 1.55;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+
+    /* Inline extension badges */
+    .inline-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px 12px;
+    }
+
+    /* Product list */
+    .product-list { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+    .product-card {
+      padding: 10px 12px;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      background: #fbfbfd;
+    }
+    .product-card .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0;
+      background: transparent;
+    }
+    .product-card .card-title { font-size: 12.5px; font-weight: 600; line-height: 1.35; min-width: 0; overflow-wrap: anywhere; }
+    .product-card .meta-value { margin-top: 6px; font-size: 12px; color: var(--muted); }
+    .product-meta { margin-top: 8px; }
+
+    /* Action buttons area */
+    .action-row .btn { width: 100%; }
+    .body-block .action-row { margin-top: 8px; }
+    .body-block .card-grid { margin-top: 8px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border-soft); }
+    .body-block .field { margin-top: 8px; }
+
+    /* Field (refund / edit-shipping panels) */
+    .field label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .field input, .field select {
+      height: 30px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0 9px;
+      width: 100%;
+      color: var(--text);
+      background: var(--surface);
+      font-size: 12px;
+    }
+    .field input:focus, .field select:focus {
+      border-color: var(--prestashop);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(127,84,179,0.12);
+    }
+
+    /* Store-scan error cards */
+    .scan-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; background: #fbfbfd; }
+    .scan-card .card-title { font-size: 12.5px; font-weight: 700; }
+    .scan-card .meta-copy  { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+
+    /* Skeleton loading shimmer */
+    .skeleton {
+      border-radius: var(--radius);
+      background: linear-gradient(90deg, #eef0f4 25%, #f6f7f9 37%, #eef0f4 63%);
+      background-size: 400% 100%;
+      animation: shimmer 1.3s ease infinite;
+      height: 66px;
+    }
+    @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky PrestaShop-orange header — always visible while scrolling -->
+  <div class="app-header">
+    <div class="app-header-row">
+      <span class="app-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 7.5h18M6 7.5V6a2 2 0 0 1 2-2h1.5M18 7.5V6a2 2 0 0 0-2-2h-1.5M5 7.5l1 11a2 2 0 0 0 2 1.8h8a2 2 0 0 0 2-1.8l1-11" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="app-name">PrestaShop</span>
+      <span class="count-badge" id="matchCountBadge">0</span>
+    </div>
+    <div class="app-subtitle" id="ticketSummary">Open the app to load PrestaShop data.</div>
+    <div class="header-customer hidden" id="headerCustomer"></div>
+  </div>
+
+  <div class="app-body">
+
+
+    <!-- Global search (all stores, any customer) + message banner -->
+    <div class="section" id="searchSection">
+      <div class="search-input-row global-search-row">
+        <input class="fw-input" id="globalSearchInput" type="text" placeholder="Search by email or order" />
+        <button type="button" class="btn-icon" id="globalSearchBtn" aria-label="Search all stores" title="Search all stores by email or order">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8"/><path d="M14 14l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="refresh-row">
+        <button type="button" class="btn" id="refreshBtn" aria-label="Refresh" title="Reload this ticket's data">Refresh</button>
+      </div>
+      <div id="pageMessage" class="message"></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="section" id="filtersSection">
+      <div class="section-head">
+        <span class="section-title">Filters</span>
+      </div>
+      <div class="filter-row">
+        <select class="fw-select" id="storeFilter">
+          <option value="">All stores</option>
+        </select>
+        <select class="fw-select" id="statusFilter">
+          <option value="">All statuses</option>
+        </select>
+        <select class="fw-select" id="sortOrder">
+          <option value="date_desc">Newest first</option>
+          <option value="date_asc">Oldest first</option>
+          <option value="total_desc">Highest total</option>
+          <option value="total_asc">Lowest total</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Customer -->
+    <div class="section" id="customerSection">
+      <div class="section-head">
+        <span class="section-title">Customer</span>
+      </div>
+      <div id="customerState" class="empty-state">No customer data loaded yet.</div>
+      <div id="customerList" class="section-stack hidden"></div>
+    </div>
+
+    <!-- Order search (within this ticket's contact) -->
+    <div class="section" id="orderSearchSection">
+      <div class="search-input-row">
+        <input class="fw-input" id="orderSearchInput" type="text" placeholder="Search order by increment ID …" />
+        <button type="button" class="btn-icon" id="orderSearchBtn" aria-label="Search this contact's orders" title="Search this contact's orders">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8"/><path d="M14 14l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Orders -->
+    <div class="section" id="orderSection">
+      <div class="section-head">
+        <span class="section-title">Orders</span>
+      </div>
+      <div id="orderState" class="empty-state">Search to load PrestaShop orders.</div>
+      <div id="orderList" class="section-stack hidden"></div>
+    </div>
+
+    <!-- Store Scan -->
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">Store Scan</span>
+      </div>
+      <p id="scanSummary" class="helper-copy" style="margin-top:0">No stores scanned yet.</p>
+      <div id="storeErrors" class="section-stack" style="margin-top:10px"></div>
+    </div>
+
+  </div>
+
+  <script src="./scripts/ticket_sidebar.js"></script>
+</body>
+</html>

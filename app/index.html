@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrestaShop Store Details</title>
+  <script src="{{{appclient}}}"></script>
+  <style>
+    :root {
+      --text: #12344d;
+      --muted: #5f7386;
+      --border: #d6dde8;
+      --surface: #ffffff;
+      --surface-soft: #f7f9fc;
+      --primary: #264ac6;
+      --primary-dark: #1f40ad;
+      --success: #0b7a5c;
+      --danger: #c82124;
+      --info: #0b5cab;
+      --shadow: 0 10px 30px rgba(18, 52, 77, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: #f5f7fb;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .shell {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .hero,
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 22px 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #2956d6;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .hero h1,
+    .panel h2 {
+      margin: 0;
+    }
+
+    .hero p,
+    .ticket-summary,
+    .panel-copy,
+    .row-copy {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hero p {
+      margin: 8px 0 0;
+      font-size: 14px;
+    }
+
+    .ticket-summary {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: 1px solid #dce6f3;
+      border-radius: 12px;
+      background: #f6f9fe;
+      font-size: 13px;
+    }
+
+    .message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .message.info,
+    .message.success,
+    .message.error {
+      display: block;
+    }
+
+    .message.info {
+      background: #eef5ff;
+      border-color: #bfd4ff;
+      color: var(--info);
+    }
+
+    .message.error {
+      background: #fff1ef;
+      border-color: #f1c7ca;
+      color: var(--danger);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 18px 20px 20px;
+    }
+
+    .panel-copy {
+      margin: 8px 0 0;
+      font-size: 13px;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .row {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-soft);
+      padding: 14px;
+    }
+
+    .row-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .row-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .row-copy {
+      margin-top: 6px;
+      font-size: 13px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pill-success {
+      background: #edf9f3;
+      color: var(--success);
+    }
+
+    .pill-muted {
+      background: #eef3f8;
+      color: #5f7386;
+    }
+
+    .empty-state {
+      border: 1px dashed #c7d2df;
+      border-radius: 12px;
+      background: var(--surface-soft);
+      padding: 16px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-top: 14px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn {
+      min-height: 42px;
+      padding: 0 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 16px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column-reverse;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="shell">
+      <section class="hero">
+        <p id="modalEyebrow" class="eyebrow">PrestaShop Connector</p>
+        <h1 id="modalTitle">Store Details</h1>
+        <p id="modalCopy">Review the stores and feature toggles currently configured for this Freshdesk installation.</p>
+        <div id="ticketSummary" class="ticket-summary">This view is shared across tickets and shows the current app configuration.</div>
+      </section>
+
+      <div id="modalMessage" class="message"></div>
+
+      <div class="layout">
+        <section class="panel">
+          <h2>Configured Stores</h2>
+          <p class="panel-copy">Safe store summaries are shown here without exposing PrestaShop credentials.</p>
+          <div id="storesList" class="stack"></div>
+          <div id="storesEmptyState" class="empty-state">No PrestaShop stores have been configured yet.</div>
+        </section>
+
+        <section class="panel">
+          <h2>Enabled Features</h2>
+          <p class="panel-copy">These are the options that currently shape the ticket experience for agents.</p>
+          <div id="featuresList" class="stack"></div>
+        </section>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn" id="closeBtn">Close</button>
+        <button type="button" class="btn btn-primary" id="refreshBtn">Refresh</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./scripts/app.js"></script>
+</body>
+</html>

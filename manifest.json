@@ -1,0 +1,77 @@
+{
+  "platform-version": "3.0",
+  "modules": {
+    "common": {
+      "location": {
+        "full_page_app": {
+          "url": "dashboard.html",
+          "icon": "icon.svg"
+        }
+      },
+      "requests": {
+        "verify_freshdesk_credentials": {},
+        "verify_prestashop_store_live": {},
+        "freshdesk_get_live": {},
+        "freshdesk_post_live": {},
+        "freshdesk_put_live": {},
+        "prestashop_get_live": {},
+        "prestashop_post_live": {},
+        "prestashop_put_live": {},
+        "prestashop_delete_live": {}
+      },
+      "events": {
+        "onAppInstall": {
+          "handler": "onAppInstall"
+        },
+        "afterAppUpdate": {
+          "handler": "afterAppUpdate"
+        },
+        "onAppUninstall": {
+          "handler": "onAppUninstall"
+        },
+        "onExternalEvent": {
+          "handler": "onExternalEvent"
+        },
+        "onScheduledEvent": {
+          "handler": "onScheduledEvent"
+        }
+      },
+      "functions": {
+        "getDashboardData": {},
+        "getSidebarData": {},
+        "persistPrestaShopStoresSecurely": {},
+        "reconnectPrestaShopSync": {},
+        "getPrestaShopOrderNotes": {},
+        "addPrestaShopOrderNote": {},
+        "applyPrestaShopOrderCoupon": {},
+        "refundPrestaShopOrder": {},
+        "cancelPrestaShopOrder": {},
+        "updatePrestaShopOrderShipping": {}
+      }
+    },
+    "support_ticket": {
+      "events": {
+        "onTicketUpdate": {
+          "handler": "handleTicketUpdate"
+        },
+        "onConversationCreate": {
+          "handler": "handleConversationCreate"
+        }
+      },
+      "location": {
+        "ticket_sidebar": {
+          "url": "ticket_sidebar.html",
+          "icon": "icon.svg"
+        }
+      }
+    }
+  },
+  "engines": {
+    "node": "24.11.0",
+    "fdk": "10.0.1"
+  },
+  "app": {
+    "tracking_id": "s9hytuyr897n65hk7927",
+    "start_time": "2025-06-07T14:05:19.420Z"
+  }
+}
