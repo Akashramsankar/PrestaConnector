@@ -580,10 +580,8 @@ function renderOrderCard(order) {
   return `
     <article class="card order-card ${isOpen ? "is-open" : ""}">
       <div class="disc-head" data-action="toggle-order" data-order-key="${escapeAttribute(orderKey)}">
-        <div class="disc-main">
-          <div class="disc-title">${orderTitle}</div>
-          <div class="disc-sub"><span class="disc-sub-txt">${escapeHtml(order.store_name || "Store")} · ${escapeHtml(formatDate(order.created_at) || "Unknown date")}</span></div>
-        </div>
+        <div class="disc-title">${orderTitle}</div>
+        <div class="disc-sub"><span class="disc-sub-txt">${escapeHtml(order.store_name || "Store")} · ${escapeHtml(formatDate(order.created_at) || "Unknown date")}</span></div>
         <div class="disc-side">
           <span class="disc-amount">${escapeHtml(order.grand_total_formatted || "—")}</span>
           ${chevronSvg()}

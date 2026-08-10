@@ -74,11 +74,48 @@ class FreshdeskConnectorApiModuleFrontController extends ModuleFrontController
 
     private function isAuthorized()
     {
-        $header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+        $header = $this->authorizationHeader();
         if (stripos($header, 'Bearer ') !== 0) {
             return false;
         }
         return hash_equals((string) Configuration::get(FreshdeskConnector::TOKEN_CONFIG), trim(substr($header, 7)));
+    }
+
+    private function authorizationHeader()
+    {
+        $candidates = [
+            'HTTP_AUTHORIZATION',
+            'REDIRECT_HTTP_AUTHORIZATION',
+            'Authorization',
+        ];
+
+        foreach ($candidates as $key) {
+            if (!empty($_SERVER[$key])) {
+                return (string) $_SERVER[$key];
+            }
+        }
+
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+            if (isset($headers['Authorization'])) {
+                return (string) $headers['Authorization'];
+            }
+            if (isset($headers['authorization'])) {
+                return (string) $headers['authorization'];
+            }
+        }
+
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+            if (isset($headers['Authorization'])) {
+                return (string) $headers['Authorization'];
+            }
+            if (isset($headers['authorization'])) {
+                return (string) $headers['authorization'];
+            }
+        }
+
+        return '';
     }
 
     private function jsonBody()

@@ -59,26 +59,6 @@
       font-weight: 700;
     }
 
-    .page-header-copy {
-      margin: 4px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .build-stamp {
-      display: inline-flex;
-      align-items: center;
-      margin-left: auto;
-      padding: 6px 10px;
-      border: 1px solid #bfd7ff;
-      border-radius: 4px;
-      background: #eef6ff;
-      color: #0b5cab;
-      font-size: 12px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
     .tabs {
       display: flex;
       align-items: flex-end;
@@ -105,73 +85,6 @@
 
     .settings-panel {
       min-width: 0;
-    }
-
-    .side-card {
-      background: var(--panel-bg);
-      border: 1px solid #e5ebf1;
-      border-radius: 12px;
-      padding: 18px;
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-    }
-
-    .side-card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .side-card-logo {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      object-fit: contain;
-      background: #f2f5f8;
-      padding: 4px;
-    }
-
-    .side-card-title {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .side-card-copy {
-      margin: 0 0 14px;
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--muted);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid #c7d2fe;
-      border-radius: 4px;
-      padding: 4px 8px;
-      font-size: 12px;
-      color: #1d4ed8;
-      background: #eef2ff;
-    }
-
-    .build-note {
-      margin-top: 12px;
-      font-size: 12px;
-      line-height: 1.5;
-      color: var(--muted);
-    }
-
-    .app-link {
-      display: inline-flex;
-      align-items: center;
-      margin-top: 14px;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      font-size: 13px;
-      color: #1d4ed8;
-      cursor: default;
     }
 
     .section {
@@ -412,10 +325,6 @@
       .content-grid {
         grid-template-columns: 1fr;
       }
-
-      .side-card {
-        max-width: 340px;
-      }
     }
 
     @media (max-width: 900px) {
@@ -439,11 +348,9 @@
   <div class="container">
     <div class="page-header">
       <span class="back-indicator" aria-hidden="true">&#8249;</span>
-      <div>
-        <h1>Configuration</h1>
-        <p class="page-header-copy">Build marker: <strong>2026-07-31 hide-refunds-v1</strong></p>
-      </div>
-      <div class="build-stamp">Build 2026-07-31 hide-refunds-v1</div>
+      <!-- <div>
+        <h1>App Settings</h1>
+      </div> -->
     </div>
 
     <div class="tabs">
@@ -558,22 +465,6 @@
           </div>
         </section>
       </div>
-
-      <aside class="side-card">
-        <div class="side-card-header">
-          <img class="side-card-logo" src="../app/icon.svg" alt="PrestaShop Connector" />
-          <h3 class="side-card-title">PrestaShop Connector</h3>
-        </div>
-        <p class="side-card-copy">
-          Connect your Freshdesk account with one or more PrestaShop stores.
-        </p>
-        <span class="badge">Paid</span>
-        <div class="build-note">
-          Installed bundle should show:<br />
-          <strong>2026-07-31 hide-refunds-v1</strong>
-        </div>
-        <button type="button" class="app-link">View App info</button>
-      </aside>
     </div>
   </div>
 

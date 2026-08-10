@@ -431,6 +431,22 @@
     }
     .card.is-open .chevron { transform: rotate(180deg); color: var(--prestashop); }
 
+    .order-card .disc-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px 10px;
+    }
+    .order-card .disc-title {
+      grid-column: 1 / -1;
+      min-width: 0;
+      font-size: 12.5px;
+      overflow: visible;
+      text-overflow: clip;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+    .order-card .disc-sub { margin-top: 0; }
+
     /* Strip that stays visible even when collapsed (status pills etc.) */
     .disc-strip {
       display: flex;

@@ -3119,16 +3119,6 @@ async function listPrestaShopOrderNotes(store, orderId) {
   return items.map((note) => normalizeOrderNote(note)).filter((note) => note.id || note.note);
 }
 
-async function listPrestaShopInvoices(store, orderId) {
-  if (isPrestaShopExtensionApiStore(store)) {
-    return [];
-  }
-
-  const query = buildSearchQuery([{ field: "order_id", value: normalizeText(orderId) }], 10);
-  const response = await fetchPrestaShop(store, `/order_invoices?${query}`);
-  return Array.isArray(response && response.items) ? response.items : [];
-}
-
 function normalizeShippingPayload(input) {
   const safe = input && typeof input === "object" ? input : {};
   return {
@@ -3177,35 +3167,6 @@ function buildPrestaShopExtensionShippingPayload(shipping) {
     postcode: normalizeText(shipping && shipping.postcode),
     countryId: normalizeText(shipping && shipping.country_id),
     telephone: normalizeText(shipping && shipping.telephone),
-  };
-}
-
-function buildRefundPayload(orderPayload, amount, reason, restock) {
-  const grandTotal = normalizeNumber(orderPayload && (orderPayload.grand_total || orderPayload.base_grand_total), 0);
-  const refundedTotal = Math.abs(normalizeNumber(orderPayload && (orderPayload.total_refunded || orderPayload.base_total_refunded), 0));
-  const refundableTotal = Math.max(0, grandTotal - refundedTotal);
-  const requestedAmount = normalizeText(amount) ? normalizeNumber(amount, -1) : refundableTotal;
-  const adjustmentNegative = Math.max(0, refundableTotal - requestedAmount);
-
-  return {
-    notify: true,
-    appendComment: Boolean(reason),
-    comment: {
-      comment: reason,
-      is_visible_on_front: false,
-    },
-    arguments: {
-      shipping_amount: 0,
-      adjustment_positive: 0,
-      adjustment_negative: Number(adjustmentNegative.toFixed(2)),
-      extension_attributes: {
-        return_to_stock_items: restock
-          ? (Array.isArray(orderPayload && orderPayload.items) ? orderPayload.items : [])
-              .map((item) => Number(item && item.item_id))
-              .filter(Boolean)
-          : [],
-      },
-    },
   };
 }
 
@@ -3522,7 +3483,7 @@ exports = {
     return buildFailure("PrestaShop REST does not support applying a coupon to a placed order. Coupons must be applied before checkout.");
   },
 
-  async refundPrestaShopOrder(args) {
+  refundPrestaShopOrder(args) {
     try {
       const requestArgs = parseArgs(args);
       const settings = resolveSettings(requestArgs);
