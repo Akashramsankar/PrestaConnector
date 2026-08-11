@@ -8,6 +8,15 @@ class FreshdeskConnector extends Module
 {
     public const TOKEN_CONFIG = 'FRESHDESKCONNECTOR_TOKEN';
     public const CALLBACK_CONFIG = 'FRESHDESKCONNECTOR_CALLBACK_URL';
+    private static $sentCustomerCreatedEvents = [];
+    private static $webhookHooks = [
+        'actionCustomerAccountAdd',
+        'actionObjectCustomerAddAfter',
+        'actionCustomerAccountUpdate',
+        'actionObjectAddressAddAfter',
+        'actionObjectCustomerUpdateAfter',
+        'actionValidateOrder',
+    ];
 
     public function __construct()
     {
@@ -29,11 +38,7 @@ class FreshdeskConnector extends Module
     {
         return parent::install()
             && Configuration::updateValue(self::TOKEN_CONFIG, Tools::passwdGen(32))
-            && $this->registerHook('actionCustomerAccountAdd')
-            && $this->registerHook('actionCustomerAccountUpdate')
-            && $this->registerHook('actionObjectAddressAddAfter')
-            && $this->registerHook('actionObjectCustomerUpdateAfter')
-            && $this->registerHook('actionValidateOrder');
+            && $this->ensureWebhookHooksRegistered();
     }
 
     public function uninstall()
@@ -45,6 +50,8 @@ class FreshdeskConnector extends Module
 
     public function getContent()
     {
+        $this->ensureWebhookHooksRegistered();
+
         if (Tools::isSubmit('submitFreshdeskConnector')) {
             Configuration::updateValue(self::TOKEN_CONFIG, trim((string) Tools::getValue('freshdeskconnector_token')));
             Configuration::updateValue(self::CALLBACK_CONFIG, trim((string) Tools::getValue('freshdeskconnector_callback_url')));
@@ -67,10 +74,28 @@ class FreshdeskConnector extends Module
             . '</div></form>';
     }
 
+    public function ensureWebhookHooksRegistered()
+    {
+        foreach (self::$webhookHooks as $hookName) {
+            if (!$this->registerHook($hookName)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function hookActionCustomerAccountAdd($params)
     {
         if (!empty($params['newCustomer']) && $params['newCustomer'] instanceof Customer) {
-            $this->sendEvent('customer.created', ['customer' => $this->customerPayload($params['newCustomer'])]);
+            $this->sendCustomerCreatedEvent($params['newCustomer']);
+        }
+    }
+
+    public function hookActionObjectCustomerAddAfter($params)
+    {
+        if (!empty($params['object']) && $params['object'] instanceof Customer) {
+            $this->sendCustomerCreatedEvent($params['object']);
         }
     }
 
@@ -116,6 +141,20 @@ class FreshdeskConnector extends Module
             'date_add' => $customer->date_add,
             'addresses' => $customer->getAddresses((int) $this->context->language->id),
         ];
+    }
+
+    private function sendCustomerCreatedEvent(Customer $customer)
+    {
+        $key = (string) ((int) $customer->id ?: $customer->email);
+        if ($key !== '' && isset(self::$sentCustomerCreatedEvents[$key])) {
+            return;
+        }
+
+        if ($key !== '') {
+            self::$sentCustomerCreatedEvents[$key] = true;
+        }
+
+        $this->sendEvent('customer.created', ['customer' => $this->customerPayload($customer)]);
     }
 
     private function orderPayload(Order $order)

@@ -7,13 +7,15 @@
   <script src="{{{appclient}}}"></script>
   <style>
     :root {
-      --prestashop:         #f26322;
-      --prestashop-d:       #d9531e;
-      --prestashop-dd:      #b8410f;
-      --primary:     #f26322;
+      /* PrestaShop brand palette — raspberry #df0067, space cadet #251b5b,
+       * blue #25b9d7, gold #fbbb22, gray #68737f */
+      --prestashop:         #df0067;
+      --prestashop-d:       #c2005a;
+      --prestashop-dd:      #251b5b;
+      --primary:     #df0067;
 
       --text:        #1c2230;
-      --muted:       #5c6675;
+      --muted:       #68737f;
       --muted-2:     #8b93a1;
       --border:      #e4e7ec;
       --border-soft: #eef0f4;
@@ -21,12 +23,12 @@
       --surface-soft:#f8f9fc;
       --bg:          #f4f5f8;
 
-      --amount:      #b45309;
+      --amount:      #251b5b;
       --success:     #0f7a5f;
       --success-bg:  #e6f5ef;
       --danger:      #c0393b;
       --danger-bg:   #fdeeee;
-      --info:        #d9531e;
+      --info:        #c2005a;
 
       --radius:      14px;
       --radius-sm:   10px;
@@ -131,7 +133,7 @@
       transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
       box-shadow: var(--shadow-sm);
     }
-    .btn:hover:not(:disabled) { background: #f4eefc; }
+    .btn:hover:not(:disabled) { background: #fdeef5; }
     .btn:active { transform: translateY(1px); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
@@ -145,7 +147,7 @@
       line-height: 1.6;
     }
     .message.info, .message.success, .message.error { display: block; }
-    .message.info { background: #fdf0e8; border-color: #f7d2bd; color: var(--info); }
+    .message.info { background: #fdeef5; border-color: #f7c9de; color: var(--info); }
     .message.success { background: var(--success-bg); border-color: #a9dcc9; color: var(--success); }
     .message.error { background: var(--danger-bg); border-color: #f0bdb8; color: var(--danger); }
 
@@ -182,9 +184,9 @@
     .info-button {
       width: 17px;
       height: 17px;
-      border: 1px solid #f7d2bd;
+      border: 1px solid #f7c9de;
       border-radius: 50%;
-      background: #fff7ed;
+      background: #fdeef5;
       color: var(--prestashop-d);
       font-size: 11px;
       font-weight: 700;
@@ -202,9 +204,9 @@
       bottom: calc(100% + 8px);
       width: 240px;
       transform: translateX(-50%);
-      border: 1px solid #f7d2bd;
+      border: 1px solid #f7c9de;
       border-radius: 10px;
-      background: #fffaf7;
+      background: #fff7fa;
       color: var(--text);
       box-shadow: var(--shadow);
       padding: 10px 12px;
@@ -224,7 +226,7 @@
       top: 100%;
       transform: translateX(-50%);
       border: 7px solid transparent;
-      border-top-color: #fffaf7;
+      border-top-color: #fff7fa;
     }
     .info-button:hover + .info-tooltip,
     .info-button:focus + .info-tooltip {
@@ -378,7 +380,7 @@
               aria-describedby="revenueInfo"
             >i</button>
             <span id="revenueInfo" class="info-tooltip" role="tooltip">
-              Sum of PrestaShop net sales from loaded orders across connected stores. Includes only sales-status orders and subtracts recorded refunded totals. Live loading is capped at 10,000 orders per store.
+              Sum of PrestaShop order grand totals from all loaded orders across connected stores. Includes the tax, shipping, discounts, and statuses reflected in PrestaShop grand total; refunds are not subtracted here. Live loading is capped at 10,000 orders per store.
             </span>
           </span>
         </div>

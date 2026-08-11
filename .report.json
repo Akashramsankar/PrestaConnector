@@ -232,42 +232,42 @@
     },
     {
       "severity": 1,
-      "value": "app/scripts/ticket_sidebar.js::702: Function 'renderOrderActions' has a complexity of 28. Maximum allowed is 7.",
+      "value": "app/scripts/ticket_sidebar.js::700: Function 'renderOrderActions' has a complexity of 28. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "app/scripts/ticket_sidebar.js::759: Function 'renderActiveOrderPanel' has a complexity of 36. Maximum allowed is 7.",
+      "value": "app/scripts/ticket_sidebar.js::757: Function 'renderActiveOrderPanel' has a complexity of 36. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "app/scripts/ticket_sidebar.js::921: Function 'renderOrderNote' has a complexity of 9. Maximum allowed is 7.",
+      "value": "app/scripts/ticket_sidebar.js::919: Function 'renderOrderNote' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "app/scripts/ticket_sidebar.js::933: Function 'renderLineItemCard' has a complexity of 10. Maximum allowed is 7.",
+      "value": "app/scripts/ticket_sidebar.js::931: Function 'renderLineItemCard' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "app/scripts/ticket_sidebar.js::978: Function 'shouldCollapseEmptySection' has a complexity of 12. Maximum allowed is 7.",
+      "value": "app/scripts/ticket_sidebar.js::976: Function 'shouldCollapseEmptySection' has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "app/scripts/ticket_sidebar.js::1024: Async function 'handleOrderActionClick' has a complexity of 38. Maximum allowed is 7.",
+      "value": "app/scripts/ticket_sidebar.js::1022: Async function 'handleOrderActionClick' has a complexity of 38. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "app/scripts/ticket_sidebar.js::1190: Function 'handleInstanceMessages' has a complexity of 14. Maximum allowed is 7.",
+      "value": "app/scripts/ticket_sidebar.js::1188: Function 'handleInstanceMessages' has a complexity of 14. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "app/scripts/ticket_sidebar.js::1424: Function 'parseInvokeResponse' has a complexity of 9. Maximum allowed is 7.",
+      "value": "app/scripts/ticket_sidebar.js::1422: Function 'parseInvokeResponse' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
@@ -292,252 +292,257 @@
     },
     {
       "severity": 1,
-      "value": "server/server.js::370: Function 'normalizeMagentoStoreRecord' has a complexity of 18. Maximum allowed is 7.",
+      "value": "server/server.js::409: Function 'normalizePrestaShopStoreRecord' has a complexity of 18. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::423: Function 'getMagentoFeatureFlags' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::462: Function 'getPrestaShopFeatureFlags' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::441: Function 'buildMagentoFeatureItems' has a complexity of 11. Maximum allowed is 7.",
+      "value": "server/server.js::480: Function 'buildPrestaShopFeatureItems' has a complexity of 11. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::507: possible deprecated API usage detected",
+      "value": "server/server.js::546: possible deprecated API usage detected",
       "type": "custom-js-lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::515: possible deprecated API usage detected",
+      "value": "server/server.js::554: possible deprecated API usage detected",
       "type": "custom-js-lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::830: Async function 'scheduleMagentoOrderTicketRetry' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::895: Async function 'schedulePrestaShopOrderTicketRetry' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1020: Async function 'installMagentoExtensionWebhooksForStores' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1036: Function 'buildPrestaShopApiPath' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1105: Async function 'fetchFreshdeskRequesterEmail' has a complexity of 13. Maximum allowed is 7.",
+      "value": "server/server.js::1114: Async function 'installPrestaShopExtensionWebhooksForStores' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1116: Async function 'fetchFreshdeskTicketRequesterEmail' has a complexity of 31. Maximum allowed is 7.",
+      "value": "server/server.js::1199: Async function 'fetchFreshdeskRequesterEmail' has a complexity of 13. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1221: Function 'normalizeAddress' has a complexity of 15. Maximum allowed is 7.",
+      "value": "server/server.js::1210: Async function 'fetchFreshdeskTicketRequesterEmail' has a complexity of 31. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1266: Function 'mergeMagentoOrderPayload' has a complexity of 12. Maximum allowed is 7.",
+      "value": "server/server.js::1315: Function 'normalizeAddress' has a complexity of 20. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1281: Arrow function has a complexity of 11. Maximum allowed is 7.",
+      "value": "server/server.js::1360: Function 'mergePrestaShopOrderPayload' has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1341: Function 'normalizeMagentoGroupName' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1375: Arrow function has a complexity of 11. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1350: Function 'getMagentoCustomerTotalSpent' has a complexity of 11. Maximum allowed is 7.",
+      "value": "server/server.js::1435: Function 'normalizePrestaShopGroupName' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1373: Function 'normalizeCustomerRecord' has a complexity of 37. Maximum allowed is 7.",
+      "value": "server/server.js::1444: Function 'getPrestaShopCustomerTotalSpent' has a complexity of 11. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1422: Async function 'fetchMagentoCustomerGroupName' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1467: Function 'normalizeCustomerRecord' has a complexity of 40. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1463: Function 'getOrderShippingAddress' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1516: Async function 'fetchPrestaShopCustomerGroupName' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1495: Function 'normalizeProductOptionRecord' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::1557: Function 'getOrderShippingAddress' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1505: Function 'normalizeProductOption' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::1565: Function 'getOrderShippingMethod' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1523: Function 'normalizeOrderLineItem' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::1589: Function 'normalizeProductOptionRecord' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1560: Function 'buildCarrierTrackingUrl' has a complexity of 13. Maximum allowed is 7.",
+      "value": "server/server.js::1599: Function 'normalizeProductOption' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1583: Function 'normalizeShipmentTrack' has a complexity of 23. Maximum allowed is 7.",
+      "value": "server/server.js::1617: Function 'normalizeOrderLineItem' has a complexity of 19. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1659: Function 'buildOrderActionAvailability' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::1654: Function 'buildCarrierTrackingUrl' has a complexity of 13. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1719: Function 'hasMagentoShippingAddress' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1677: Function 'normalizeShipmentTrack' has a complexity of 25. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1728: Function 'normalizeOrderRecord' has a complexity of 28. Maximum allowed is 7.",
+      "value": "server/server.js::1753: Function 'buildOrderActionAvailability' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1793: Function 'normalizeGuestCustomerFromOrder' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::1812: Function 'hasPrestaShopShippingAddress' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1859: Function 'buildOrderSearchText' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1821: Function 'normalizeOrderRecord' has a complexity of 61. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2034: Function 'storeHasRegisteredCustomerEmail' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::1893: Function 'normalizeGuestCustomerFromOrder' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2083: Arrow function has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::1923: Function 'buildSearchQuery' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2110: Arrow function has a complexity of 12. Maximum allowed is 7.",
+      "value": "server/server.js::1967: Function 'buildOrderSearchText' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2134: Async function 'finalizeMagentoSidebarData' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::2028: Async function 'searchStoreOrders' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2174: Async function 'collectGlobalMagentoSearchData' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2161: Function 'storeHasRegisteredCustomerEmail' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2230: Async function 'collectMagentoSidebarData' has a complexity of 26. Maximum allowed is 7.",
+      "value": "server/server.js::2210: Arrow function has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2459: Function 'buildFreshdeskContactPayloadFromMagentoCustomer' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::2237: Arrow function has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2508: Function 'normalizeFreshdeskDefaultPayloadValue' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2261: Async function 'finalizePrestaShopSidebarData' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2552: Arrow function has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::2301: Async function 'collectGlobalPrestaShopSearchData' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2587: Function 'getFreshdeskMissingCustomFieldFallback' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::2357: Async function 'collectPrestaShopSidebarData' has a complexity of 26. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2614: Arrow function has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2586: Function 'buildFreshdeskContactPayloadFromPrestaShopCustomer' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2655: Async function 'syncFreshdeskContactForMagentoCustomer' has a complexity of 16. Maximum allowed is 7.",
+      "value": "server/server.js::2635: Function 'normalizeFreshdeskDefaultPayloadValue' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2725: Function 'buildOrderCreatedTicketDescription' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2679: Arrow function has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2751: Async function 'createFreshdeskTicketForMagentoEvent' has a complexity of 12. Maximum allowed is 7.",
+      "value": "server/server.js::2714: Function 'getFreshdeskMissingCustomFieldFallback' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2781: Async function 'processMagentoCustomerEvent' has a complexity of 13. Maximum allowed is 7.",
+      "value": "server/server.js::2741: Arrow function has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2807: Async function 'processMagentoOrderCreatedEvent' has a complexity of 35. Maximum allowed is 7.",
+      "value": "server/server.js::2782: Async function 'syncFreshdeskContactForPrestaShopCustomer' has a complexity of 16. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2964: Function 'buildExternalEventPayloadDiagnostics' has a complexity of 17. Maximum allowed is 7.",
+      "value": "server/server.js::2852: Function 'buildOrderCreatedTicketDescription' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3062: Function 'buildMagentoExtensionShippingPayload' has a complexity of 12. Maximum allowed is 7.",
+      "value": "server/server.js::2878: Async function 'createFreshdeskTicketForPrestaShopEvent' has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3079: Function 'buildRefundPayload' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2908: Async function 'processPrestaShopCustomerEvent' has a complexity of 13. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3176: Async method 'onExternalEvent' has a complexity of 37. Maximum allowed is 7.",
+      "value": "server/server.js::2934: Async function 'processPrestaShopOrderCreatedEvent' has a complexity of 35. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3230: Async method 'onScheduledEvent' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::3091: Function 'buildExternalEventPayloadDiagnostics' has a complexity of 17. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3416: Async method 'refundMagentoOrder' has a complexity of 13. Maximum allowed is 7.",
+      "value": "server/server.js::3182: Function 'buildPrestaShopExtensionShippingPayload' has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3475: Async method 'cancelMagentoOrder' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::3251: Async method 'onExternalEvent' has a complexity of 40. Maximum allowed is 7.",
+      "type": "lint"
+    },
+    {
+      "severity": 1,
+      "value": "server/server.js::3307: Async method 'onScheduledEvent' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     }
   ],

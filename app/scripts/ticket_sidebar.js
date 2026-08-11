@@ -411,9 +411,9 @@ function buildCustomerEmptyState() {
   return `No PrestaShop customer found for ${email}.`;
 }
 
-// Render the primary customer's summary inside the orange header, plus a
+// Render the primary customer's summary inside the brand header, plus a
 // collapsible white details panel (email, registration, addresses, …).
-// Static customer summary in the orange header — name, role and total sales,
+// Static customer summary in the brand header — name, role and total sales,
 // read-only (no dropdown). Full details live in the collapsible card below.
 function renderHeaderCustomer() {
   if (!refs.headerCustomer) {

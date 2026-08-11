@@ -7,20 +7,22 @@
   <script src="{{{appclient}}}"></script>
   <style>
     :root {
-      --prestashop:         #f26322;
-      --prestashop-d:       #d9531e;
-      --primary-bg:  #fdf0e8;
-      --link:        #2f6fed;
+      /* PrestaShop brand palette — raspberry #df0067, space cadet #251b5b,
+       * blue #25b9d7, gold #fbbb22, gray #68737f */
+      --prestashop:         #df0067;
+      --prestashop-d:       #c2005a;
+      --primary-bg:  #fdeef5;
+      --link:        #12768f;
 
       --text:        #1c2230;
-      --muted:       #6b7280;
+      --muted:       #68737f;
       --muted-2:     #9aa2ae;
       --border:      #e2e5ea;
       --border-soft: #eef0f4;
       --surface:     #ffffff;
       --bg:          #f4f5f8;
 
-      --amount:      #b45309;
+      --amount:      #251b5b;
       --success:     #0f7a5f;
       --danger:      #c0393b;
       --danger-bg:   #fdeeee;
@@ -134,7 +136,7 @@
     .field select:focus,
     .field textarea:focus {
       border-color: var(--prestashop);
-      box-shadow: 0 0 0 3px rgba(127,84,179,0.14);
+      box-shadow: 0 0 0 3px rgba(223,0,103,0.14);
     }
     .field select {
       appearance: none;
@@ -194,7 +196,7 @@
     }
     .refund-table input:focus {
       border-color: var(--prestashop);
-      box-shadow: 0 0 0 3px rgba(127,84,179,0.12);
+      box-shadow: 0 0 0 3px rgba(223,0,103,0.12);
     }
 
     /* ── Refund options (checkboxes) ────────────────────────── */

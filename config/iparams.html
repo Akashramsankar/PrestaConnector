@@ -8,19 +8,22 @@
   <link rel="stylesheet" href="https://static.freshdev.io/fdk/2.0/assets/freshworks.css" />
   <style>
     :root {
+      /* PrestaShop brand palette — raspberry #df0067, space cadet #251b5b,
+       * blue #25b9d7, gold #fbbb22, gray #68737f */
       --page-bg: #f8fafc;
       --panel-bg: #ffffff;
       --border: #d7dee7;
-      --muted: #576c7d;
-      --text: #12344d;
-      --primary: #1f3e57;
-      --primary-hover: #173246;
+      --muted: #68737f;
+      --text: #1c2230;
+      --primary: #df0067;
+      --primary-hover: #c2005a;
+      --primary-soft: #fdeef5;
       --danger: #b42318;
       --danger-soft: #fff1ef;
       --success: #0a6a31;
       --success-soft: #edf9f1;
-      --info: #0b5cab;
-      --info-soft: #f0f7ff;
+      --info: #12768f;
+      --info-soft: #eef9fc;
     }
 
     * {
@@ -71,8 +74,8 @@
     .tab {
       padding: 11px 14px 9px;
       font-size: 14px;
-      color: #1d4ed8;
-      border-bottom: 2px solid #1d4ed8;
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary);
       background: transparent;
     }
 
@@ -163,15 +166,15 @@
     .field input:focus,
     .field select:focus,
     .field textarea:focus {
-      outline: 2px solid rgba(29, 78, 216, 0.12);
-      border-color: #1d4ed8;
+      outline: 2px solid rgba(223, 0, 103, 0.12);
+      border-color: var(--primary);
     }
 
     .helper-text {
       margin-top: 6px;
       font-size: 12px;
       line-height: 1.5;
-      color: #7b8a97;
+      color: var(--muted);
     }
 
     .action-row {
@@ -213,7 +216,7 @@
 
     .button-secondary {
       color: var(--primary);
-      background: #eaf0f5;
+      background: var(--primary-soft);
     }
 
     .button-danger {
@@ -287,7 +290,7 @@
       display: block;
       color: var(--info);
       background: var(--info-soft);
-      border-color: #b9d8ff;
+      border-color: #b8e4ef;
     }
 
     .message.success {

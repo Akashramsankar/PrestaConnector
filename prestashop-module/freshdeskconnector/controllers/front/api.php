@@ -29,6 +29,9 @@ class FreshdeskConnectorApiModuleFrontController extends ModuleFrontController
             if ($method === 'POST' && $route === '/freshworks/webhook/install') {
                 $payload = $this->jsonBody();
                 Configuration::updateValue(FreshdeskConnector::CALLBACK_CONFIG, trim((string) ($payload['deliveryUrl'] ?? '')));
+                if ($this->module && method_exists($this->module, 'ensureWebhookHooksRegistered')) {
+                    $this->module->ensureWebhookHooksRegistered();
+                }
                 $this->json(true);
             }
             if ($method === 'GET' && preg_match('#^/freshworks/customers/(\d+)$#', $route, $match)) {

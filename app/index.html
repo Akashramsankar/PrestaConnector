@@ -7,17 +7,19 @@
   <script src="{{{appclient}}}"></script>
   <style>
     :root {
-      --text: #12344d;
-      --muted: #5f7386;
+      /* PrestaShop brand palette — raspberry #df0067, space cadet #251b5b,
+       * blue #25b9d7, gold #fbbb22, gray #68737f */
+      --text: #1c2230;
+      --muted: #68737f;
       --border: #d6dde8;
       --surface: #ffffff;
       --surface-soft: #f7f9fc;
-      --primary: #264ac6;
-      --primary-dark: #1f40ad;
+      --primary: #df0067;
+      --primary-dark: #c2005a;
       --success: #0b7a5c;
       --danger: #c82124;
-      --info: #0b5cab;
-      --shadow: 0 10px 30px rgba(18, 52, 77, 0.08);
+      --info: #12768f;
+      --shadow: 0 10px 30px rgba(18, 23, 32, 0.08);
     }
 
     * {
@@ -61,7 +63,7 @@
 
     .eyebrow {
       margin: 0 0 8px;
-      color: #2956d6;
+      color: var(--primary);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.06em;
@@ -89,9 +91,9 @@
     .ticket-summary {
       margin-top: 14px;
       padding: 12px 14px;
-      border: 1px solid #dce6f3;
+      border: 1px solid #d8eef5;
       border-radius: 12px;
-      background: #f6f9fe;
+      background: #f4fbfd;
       font-size: 13px;
     }
 
@@ -111,8 +113,8 @@
     }
 
     .message.info {
-      background: #eef5ff;
-      border-color: #bfd4ff;
+      background: #eef9fc;
+      border-color: #b8e4ef;
       color: var(--info);
     }
 
@@ -186,7 +188,7 @@
 
     .pill-muted {
       background: #eef3f8;
-      color: #5f7386;
+      color: var(--muted);
     }
 
     .empty-state {

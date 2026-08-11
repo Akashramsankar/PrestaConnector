@@ -7,25 +7,26 @@
   <script src="{{{appclient}}}"></script>
   <style>
     :root {
-      /* PrestaShop brand orange + support neutrals */
-      --prestashop:         #f26322;
-      --prestashop-d:       #d9531e;
-      --prestashop-dd:      #b8410f;
-      --primary:     #f26322;
-      --primary-h:   #d9531e;
-      --primary-bg:  #fdf0e8;
-      --link:        #2f6fed;
+      /* PrestaShop brand palette — raspberry #df0067, space cadet #251b5b,
+       * blue #25b9d7, gold #fbbb22, gray #68737f — plus support neutrals */
+      --prestashop:         #df0067;
+      --prestashop-d:       #c2005a;
+      --prestashop-dd:      #251b5b;
+      --primary:     #df0067;
+      --primary-h:   #c2005a;
+      --primary-bg:  #fdeef5;
+      --link:        #12768f;
 
       --text:        #1c2230;
       --heading:     #12172099;
-      --muted:       #6b7280;
+      --muted:       #68737f;
       --muted-2:     #9aa2ae;
       --border:      #e2e5ea;
       --border-soft: #eef0f4;
       --surface:     #ffffff;
       --bg:          #f4f5f8;
 
-      --amount:      #b45309;   /* currency emphasis (echoes reference) */
+      --amount:      #251b5b;   /* currency emphasis (PrestaShop space cadet) */
       --success:     #0f7a5f;
       --success-bg:  #e6f5ef;
       --warn:        #9a6a00;
@@ -117,7 +118,7 @@
       text-overflow: ellipsis;
     }
 
-    /* ── Primary customer summary in the orange header ──────── */
+    /* ── Primary customer summary in the brand header ───────── */
     .header-customer {
       margin-top: 6px;
       padding-top: 6px;
@@ -163,7 +164,7 @@
       font-weight: 600;
       overflow-wrap: anywhere;
     }
-    .hc-amount { color: #ffcf99; }
+    .hc-amount { color: #fbbb22; }
 
     /* ── Body sections ──────────────────────────────────────── */
     /* Flat, edge-to-edge sheet — sections span the full sidebar width and
@@ -212,7 +213,7 @@
     .fw-input:focus, .fw-select:focus {
       border-color: var(--prestashop);
       outline: none;
-      box-shadow: 0 0 0 3px rgba(127,84,179,0.14);
+      box-shadow: 0 0 0 3px rgba(223,0,103,0.14);
     }
     .fw-select {
       appearance: none;
@@ -317,7 +318,7 @@
       line-height: 1.5;
     }
     .message.info, .message.success, .message.error { display: block; }
-    .message.info    { background: var(--primary-bg); border-color: #f7d2bd; color: var(--prestashop-d); }
+    .message.info    { background: var(--primary-bg); border-color: #f7c9de; color: var(--prestashop-d); }
     .message.success { background: var(--success-bg); border-color: #a9dcc9; color: var(--success); }
     .message.error   { background: var(--danger-bg);  border-color: #f0c4c6; color: var(--danger); }
 
@@ -454,7 +455,20 @@
       flex-wrap: wrap;
       gap: 6px;
       padding: 0 12px 12px;
+      min-width: 0;
     }
+    .order-card .disc-strip { align-items: flex-start; }
+    .order-card .disc-strip .pill {
+      flex-shrink: 1;
+      max-width: 100%;
+      min-width: 0;
+      align-items: flex-start;
+      white-space: normal;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      border-radius: 12px;
+    }
+    .order-card .disc-strip .pill::before { flex-shrink: 0; margin-top: 5px; }
     .items-count { font-size: 11.5px; color: var(--muted); }
 
     /* Customer summary rows — always visible, label → value like the
@@ -680,7 +694,7 @@
     .field input:focus, .field select:focus {
       border-color: var(--prestashop);
       outline: none;
-      box-shadow: 0 0 0 3px rgba(127,84,179,0.12);
+      box-shadow: 0 0 0 3px rgba(223,0,103,0.12);
     }
 
     /* Store-scan error cards */
@@ -703,7 +717,7 @@
 </head>
 <body>
 
-  <!-- Sticky PrestaShop-orange header — always visible while scrolling -->
+  <!-- Sticky PrestaShop-brand header — always visible while scrolling -->
   <div class="app-header">
     <div class="app-header-row">
       <span class="app-logo" aria-hidden="true">

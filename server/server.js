@@ -752,6 +752,32 @@ function describePrestaShopWebhookCallbackStatus(settings, registry) {
   return normalizeText(registry && registry.target_url) ? "prepared for deferred install" : "not generated";
 }
 
+async function preparePrestaShopWebhookAutoInstall(settings) {
+  const shouldPrepareWebhooks = shouldPrepareAutoPrestaShopWebhooks(settings);
+  if (!shouldPrepareWebhooks) {
+    await removePrestaShopWebhookAutoInstallSchedule();
+    return { target_url: "" };
+  }
+
+  const domain = normalizeDomain(settings && settings.domain);
+  try {
+    const registry = await markPrestaShopWebhookAutoInstallPending(domain);
+    await ensurePrestaShopWebhookAutoInstallSchedule(settings);
+    return registry;
+  } catch (error) {
+    console.error("[PrestaShopConnector] Unable to prepare deferred webhook installation:", error);
+    if (domain) {
+      await recordPrestaShopWebhookAutoInstallFailure(domain, { target_url: "" }, error);
+    }
+    return {
+      target_url: "",
+      auto_install_pending: true,
+      auto_install_error: extractErrorMessage(error, "Unable to prepare PrestaShop webhook callback."),
+      auto_install_attempted_at: new Date().toISOString(),
+    };
+  }
+}
+
 async function markPrestaShopWebhookAutoInstallPending(domain) {
   const registry = await ensurePrestaShopWebhookTargetRegistry(domain);
   await writeWebhookRegistry(domain, {
@@ -2461,9 +2487,9 @@ async function fetchPrestaShopDashboardOrders(store) {
   };
 }
 
-function addPrestaShopRevenue(revenueByCurrency, order) {
+function addPrestaShopDashboardRevenue(revenueByCurrency, order) {
   const currency = normalizeText(order && order.currency) || "USD";
-  revenueByCurrency[currency] = (revenueByCurrency[currency] || 0) + getOrderNetSalesAmount(order);
+  revenueByCurrency[currency] = (revenueByCurrency[currency] || 0) + normalizeNumber(order && order.grand_total, 0);
 }
 
 function formatPrestaShopRevenueTotals(revenueByCurrency) {
@@ -2503,8 +2529,8 @@ async function buildPrestaShopDashboardInsights(settings) {
       orders.forEach((order) => {
         const status = normalizeText(order.status_label || order.status) || "Unknown";
         statusCounts[status] = (statusCounts[status] || 0) + 1;
-        addPrestaShopRevenue(totals.revenue_by_currency, order);
-        addPrestaShopRevenue(storeRevenueByCurrency, order);
+        addPrestaShopDashboardRevenue(totals.revenue_by_currency, order);
+        addPrestaShopDashboardRevenue(storeRevenueByCurrency, order);
         recentOrders.push(order);
       });
 
@@ -3177,15 +3203,7 @@ exports = {
       const summary = buildEventSummary(settings);
       console.log(`[PrestaShopConnector] Build marker ${APP_BUILD_MARKER}`);
       await writeSecurePrestaShopStoresFromSettings(settings);
-      const shouldPrepareWebhooks = shouldPrepareAutoPrestaShopWebhooks(settings);
-      const registry = shouldPrepareWebhooks
-        ? await markPrestaShopWebhookAutoInstallPending(settings && settings.domain)
-        : { target_url: "" };
-      if (shouldPrepareWebhooks) {
-        await ensurePrestaShopWebhookAutoInstallSchedule(settings);
-      } else {
-        await removePrestaShopWebhookAutoInstallSchedule();
-      }
+      const registry = await preparePrestaShopWebhookAutoInstall(settings);
       console.log(
         `[PrestaShopConnector] Installed for ${summary.connected_stores} configured store(s); webhook callback ${describePrestaShopWebhookCallbackStatus(settings, registry)}.`
       );
@@ -3202,15 +3220,7 @@ exports = {
       const summary = buildEventSummary(settings);
       console.log(`[PrestaShopConnector] Build marker ${APP_BUILD_MARKER}`);
       await writeSecurePrestaShopStoresFromSettings(settings);
-      const shouldPrepareWebhooks = shouldPrepareAutoPrestaShopWebhooks(settings);
-      const registry = shouldPrepareWebhooks
-        ? await markPrestaShopWebhookAutoInstallPending(settings && settings.domain)
-        : { target_url: "" };
-      if (shouldPrepareWebhooks) {
-        await ensurePrestaShopWebhookAutoInstallSchedule(settings);
-      } else {
-        await removePrestaShopWebhookAutoInstallSchedule();
-      }
+      const registry = await preparePrestaShopWebhookAutoInstall(settings);
       console.log(
         `[PrestaShopConnector] Updated with ${summary.connected_stores} configured store(s); webhook callback ${describePrestaShopWebhookCallbackStatus(settings, registry)}.`
       );
