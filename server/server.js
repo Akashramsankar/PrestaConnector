@@ -12,7 +12,8 @@ const FRESHDESK_FIELD_DEFAULTS_KEY = "freshdesk_required_field_defaults";
 const FRESHDESK_FIELD_TYPES_KEY = "freshdesk_required_field_types";
 
 const DEFAULT_STORE_CODE = "default";
-const DEFAULT_ADMIN_PATH = "admin";
+const DEFAULT_ADMIN_PATH = "admin-dev";
+const LEGACY_DEFAULT_ADMIN_PATH = "admin";
 const REFUNDABLE_ORDER_STATUSES = new Set(["processing", "complete", "closed"]);
 const SALES_ORDER_STATES = new Set(["processing", "complete", "closed"]);
 
@@ -416,7 +417,9 @@ function normalizePrestaShopStoreRecord(store, fallbackId, includeSecret) {
   const accessToken = normalizeText(store.access_token || store.accessToken);
   const storeName = normalizeText(store.store_name || store.storeName) || `Store ${fallbackId}`;
   const storeCode = normalizeStoreCode(store.store_code || store.storeCode);
-  const customAdminPath = normalizeStorePath(store.custom_admin_path || store.customAdminPath) || DEFAULT_ADMIN_PATH;
+  const customAdminPath = getStoreAdminPath({
+    custom_admin_path: store.custom_admin_path || store.customAdminPath,
+  });
   const apiMode = normalizeText(store.api_mode || store.apiMode).toLowerCase() === "extension" ? "extension" : "native";
   const hasCredentials = Boolean(baseUrl && accessToken);
 
@@ -1005,6 +1008,35 @@ async function getMappedTicket(domain, prefix, storeId, id) {
   return ticket && typeof ticket === "object" ? ticket : null;
 }
 
+function buildFreshdeskTicketUrl(domain, ticketId) {
+  const normalizedDomain = normalizeDomain(domain);
+  const normalizedTicketId = normalizeText(ticketId);
+  return normalizedDomain && normalizedTicketId ? `https://${normalizedDomain}/a/tickets/${encodeURIComponent(normalizedTicketId)}` : "";
+}
+
+async function attachMappedFreshdeskTicketsToOrders(domain, orders) {
+  const safeOrders = Array.isArray(orders) ? orders : [];
+  if (!safeOrders.length || !normalizeDomain(domain)) {
+    return safeOrders;
+  }
+
+  const linkMap = await readLinkMap(domain, ORDER_TICKET_LINK_KEY_PREFIX);
+  return safeOrders.map((order) => {
+    const mappedTicket = linkMap[buildMapKey(order && order.store_id, order && order.id)];
+    const ticketId = normalizeText(mappedTicket && mappedTicket.ticket_id);
+    if (!ticketId) {
+      return order;
+    }
+
+    return {
+      ...order,
+      freshdesk_ticket_id: ticketId,
+      freshdesk_ticket_subject: normalizeText(mappedTicket && mappedTicket.subject),
+      freshdesk_ticket_url: buildFreshdeskTicketUrl(domain, ticketId),
+    };
+  });
+}
+
 async function clearMappedTicket(domain, prefix, storeId, id) {
   const normalizedId = normalizeText(id);
   if (!normalizedId) {
@@ -1319,7 +1351,8 @@ function normalizeAddress(address) {
   const lastName = normalizeText(safe.lastname || safe.last_name || safe.lastName);
   const region = normalizeText(safe.region || safe.region_code || safe.state || safe.id_state);
   const postcode = normalizeText(safe.postcode || safe.zip);
-  const country = normalizeText(safe.country_id || safe.country || safe.id_country);
+  const countryId = normalizeText(safe.country_id || safe.id_country);
+  const country = normalizeText(safe.country_iso || safe.country_code || safe.country || safe.country_name || countryId);
   const lines = [
     [firstName, lastName].filter(Boolean).join(" "),
     normalizeText(safe.company),
@@ -1338,6 +1371,7 @@ function normalizeAddress(address) {
     state: region,
     postcode,
     country,
+    country_id: countryId,
     phone: normalizeText(safe.telephone || safe.phone || safe.phone_mobile),
     email: normalizeText(safe.email),
     formatted: lines.join("\n"),
@@ -1399,13 +1433,18 @@ function mergePrestaShopOrderPayload(preferred, fallback) {
   return merged;
 }
 
+function getStoreAdminPath(store) {
+  const adminPath = normalizeStorePath(store && store.custom_admin_path);
+  return !adminPath || adminPath === LEGACY_DEFAULT_ADMIN_PATH ? DEFAULT_ADMIN_PATH : adminPath;
+}
+
 function buildStoreAdminBasePath(store) {
   const endpoint = resolvePrestaShopStoreEndpoint(store);
   if (!endpoint) {
     return "";
   }
 
-  return `${endpoint.pathPrefix}/${normalizeStorePath(store && store.custom_admin_path) || DEFAULT_ADMIN_PATH}`.replace(/\/{2,}/g, "/");
+  return `${endpoint.pathPrefix}/${getStoreAdminPath(store)}`.replace(/\/{2,}/g, "/");
 }
 
 function buildCustomerAdminLink(store, customerId) {
@@ -1417,7 +1456,7 @@ function buildCustomerAdminLink(store, customerId) {
 function buildOrderAdminLink(store, orderId) {
   const id = normalizeText(orderId);
   const endpoint = resolvePrestaShopStoreEndpoint(store);
-  return id && endpoint ? `https://${endpoint.host}${buildStoreAdminBasePath(store)}/index.php/sell/orders/${encodeURIComponent(id)}/view` : "";
+  return id && endpoint ? `https://${endpoint.host}${buildStoreAdminBasePath(store)}/index.php?controller=AdminOrders&id_order=${encodeURIComponent(id)}&vieworder=1` : "";
 }
 
 function buildProductAdminLink(store, productId) {
@@ -1754,6 +1793,21 @@ function buildOrderActionAvailability(status, total, store, hasShippingAddress =
   const normalizedStatus = normalizeStatusSlug(status);
   const refundUnavailableReason = resolveRefundUnavailableReason(normalizedStatus, total);
   const canUseModuleActions = isPrestaShopExtensionApiStore(store);
+  const cancellableStatuses = new Set([
+    "pending",
+    "processing",
+    "new",
+    "awaiting_payment",
+    "awaiting_check_payment",
+    "awaiting_bank_wire_payment",
+    "awaiting_cash_on_delivery_validation",
+    "on_backorder_not_paid",
+    "1",
+    "2",
+    "10",
+    "12",
+    "13",
+  ]);
   const refundActionUnavailableReason = refundUnavailableReason || "Refund actions require handling in PrestaShop Back Office.";
   const shippingUnavailableReason = !hasShippingAddress
     ? "This order does not have a shipping address."
@@ -1769,7 +1823,7 @@ function buildOrderActionAvailability(status, total, store, hasShippingAddress =
     coupon_unavailable_reason: "PrestaShop REST does not support applying coupons to orders after checkout.",
     can_refund: false,
     refund_unavailable_reason: refundActionUnavailableReason,
-    can_cancel: canUseModuleActions && ["pending", "processing", "new", "awaiting_payment", "1", "2"].includes(normalizedStatus),
+    can_cancel: canUseModuleActions && cancellableStatuses.has(normalizedStatus),
     can_update_shipping: canUpdateShipping,
     shipping_unavailable_reason: canUpdateShipping ? "" : shippingUnavailableReason,
   };
@@ -2504,6 +2558,7 @@ function formatPrestaShopRevenueTotals(revenueByCurrency) {
 }
 
 async function buildPrestaShopDashboardInsights(settings) {
+  const domain = normalizeDomain(settings && settings.domain);
   const stores = await getSecurePrestaShopStores(settings);
   const totals = {
     total_orders: 0,
@@ -2558,6 +2613,8 @@ async function buildPrestaShopDashboardInsights(settings) {
     }
   }
 
+  const displayedRecentOrders = sortByDateDescending(recentOrders, (item) => item.created_at).slice(0, 12);
+
   return {
     totals: {
       total_orders: totals.total_orders,
@@ -2567,7 +2624,7 @@ async function buildPrestaShopDashboardInsights(settings) {
       custom_status_enabled_stores: 0,
     },
     status_counts: Object.keys(statusCounts).sort().map((status) => ({ status, count: statusCounts[status] })),
-    recent_orders: sortByDateDescending(recentOrders, (item) => item.created_at).slice(0, 12),
+    recent_orders: await attachMappedFreshdeskTicketsToOrders(domain, displayedRecentOrders),
     stores: storeInsights,
   };
 }
@@ -3527,8 +3584,7 @@ exports = {
       if (!isPrestaShopExtensionApiStore(store)) {
         return buildFailure("Order cancellation requires the Freshworks PrestaShop module token.");
       }
-      const orderPayload = await fetchPrestaShop(store, `/orders/${encodeURIComponent(orderId)}`);
-      const normalizedOrder = normalizeOrderRecord(store, orderPayload);
+      const normalizedOrder = await loadPrestaShopOrder(store, orderId);
       const allowedActions = buildOrderActionAvailability(normalizedOrder.status, normalizedOrder.grand_total, store);
       if (!allowedActions.can_cancel) {
         return buildFailure("This order cannot be cancelled from the connector.");

@@ -1,4 +1,5 @@
-const DEFAULT_ADMIN_PATH = "admin";
+const DEFAULT_ADMIN_PATH = "admin-dev";
+const LEGACY_DEFAULT_ADMIN_PATH = "admin";
 const DEFAULT_STORE_CODE = "default";
 const REQUIRED_STORE_FIELDS = ["base_url", "access_token", "store_name"];
 const FRESHDESK_KEY_PLACEHOLDER = "Freshdesk API Key";
@@ -662,10 +663,6 @@ function shouldShowFreshdeskRequiredField(field, category) {
     return false;
   }
 
-  if (category === "ticket") {
-    return field.requiredForAgents && !field.requiredForCustomers;
-  }
-
   return true;
 }
 
@@ -1000,7 +997,7 @@ function normalizeStorePathFragment(value) {
 
 function normalizeAdminPath(value) {
   const cleaned = String(value || "").trim().replace(/^\/+/, "").replace(/\/+$/, "");
-  return cleaned || DEFAULT_ADMIN_PATH;
+  return !cleaned || cleaned === LEGACY_DEFAULT_ADMIN_PATH ? DEFAULT_ADMIN_PATH : cleaned;
 }
 
 function safeParseJson(value, fallback) {

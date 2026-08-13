@@ -188,6 +188,7 @@ function renderRecentOrders(items) {
           Customer: ${escapeHtml(item.customer_email || "Unknown")}<br />
           Date: ${escapeHtml(formatDate(item.created_at) || "Unknown")}<br />
           Total: ${escapeHtml(item.grand_total_formatted || "N/A")}
+          ${item.freshdesk_ticket_url && item.freshdesk_ticket_id ? `<br />Ticket: <a href="${escapeAttribute(item.freshdesk_ticket_url)}" target="_blank" rel="noreferrer">#${escapeHtml(item.freshdesk_ticket_id)}</a>` : ""}
         </div>
       </article>
     `;

@@ -124,7 +124,7 @@ function renderStores(stores) {
         </div>
         <div class="row-copy">
           URL: ${escapeHtml(store.display_url || store.base_url || "Not set")}<br />
-          Admin path: ${escapeHtml(store.custom_admin_path || "admin")}
+          Admin path: ${escapeHtml(store.custom_admin_path || "admin-dev")}
         </div>
       </article>
     `;

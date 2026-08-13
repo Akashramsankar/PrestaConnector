@@ -32,12 +32,12 @@
     },
     {
       "severity": 1,
-      "value": "app/scripts/dashboard.js::177: Arrow function has a complexity of 9. Maximum allowed is 7.",
+      "value": "app/scripts/dashboard.js::177: Arrow function has a complexity of 11. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "app/scripts/dashboard.js::224: Function 'parseInvokeResponse' has a complexity of 9. Maximum allowed is 7.",
+      "value": "app/scripts/dashboard.js::225: Function 'parseInvokeResponse' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
@@ -272,277 +272,277 @@
     },
     {
       "severity": 1,
-      "value": "server/server.js::19: Function 'parseArgs' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::20: Function 'parseArgs' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::172: Function 'formatApiErrorDetail' has a complexity of 11. Maximum allowed is 7.",
+      "value": "server/server.js::173: Function 'formatApiErrorDetail' has a complexity of 11. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::183: Arrow function has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::184: Arrow function has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::216: Async function 'invokeTemplate' has a complexity of 20. Maximum allowed is 7.",
+      "value": "server/server.js::217: Async function 'invokeTemplate' has a complexity of 20. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::409: Function 'normalizePrestaShopStoreRecord' has a complexity of 18. Maximum allowed is 7.",
+      "value": "server/server.js::410: Function 'normalizePrestaShopStoreRecord' has a complexity of 17. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::462: Function 'getPrestaShopFeatureFlags' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::465: Function 'getPrestaShopFeatureFlags' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::480: Function 'buildPrestaShopFeatureItems' has a complexity of 11. Maximum allowed is 7.",
+      "value": "server/server.js::483: Function 'buildPrestaShopFeatureItems' has a complexity of 11. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::546: possible deprecated API usage detected",
+      "value": "server/server.js::549: possible deprecated API usage detected",
       "type": "custom-js-lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::554: possible deprecated API usage detected",
+      "value": "server/server.js::557: possible deprecated API usage detected",
       "type": "custom-js-lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::895: Async function 'schedulePrestaShopOrderTicketRetry' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::898: Async function 'schedulePrestaShopOrderTicketRetry' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1036: Function 'buildPrestaShopApiPath' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1068: Function 'buildPrestaShopApiPath' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1114: Async function 'installPrestaShopExtensionWebhooksForStores' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1146: Async function 'installPrestaShopExtensionWebhooksForStores' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1199: Async function 'fetchFreshdeskRequesterEmail' has a complexity of 13. Maximum allowed is 7.",
+      "value": "server/server.js::1231: Async function 'fetchFreshdeskRequesterEmail' has a complexity of 13. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1210: Async function 'fetchFreshdeskTicketRequesterEmail' has a complexity of 31. Maximum allowed is 7.",
+      "value": "server/server.js::1242: Async function 'fetchFreshdeskTicketRequesterEmail' has a complexity of 31. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1315: Function 'normalizeAddress' has a complexity of 20. Maximum allowed is 7.",
+      "value": "server/server.js::1347: Function 'normalizeAddress' has a complexity of 23. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1360: Function 'mergePrestaShopOrderPayload' has a complexity of 12. Maximum allowed is 7.",
+      "value": "server/server.js::1394: Function 'mergePrestaShopOrderPayload' has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1375: Arrow function has a complexity of 11. Maximum allowed is 7.",
+      "value": "server/server.js::1409: Arrow function has a complexity of 11. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1435: Function 'normalizePrestaShopGroupName' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1474: Function 'normalizePrestaShopGroupName' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1444: Function 'getPrestaShopCustomerTotalSpent' has a complexity of 11. Maximum allowed is 7.",
+      "value": "server/server.js::1483: Function 'getPrestaShopCustomerTotalSpent' has a complexity of 11. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1467: Function 'normalizeCustomerRecord' has a complexity of 40. Maximum allowed is 7.",
+      "value": "server/server.js::1506: Function 'normalizeCustomerRecord' has a complexity of 40. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1516: Async function 'fetchPrestaShopCustomerGroupName' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1555: Async function 'fetchPrestaShopCustomerGroupName' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1557: Function 'getOrderShippingAddress' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::1596: Function 'getOrderShippingAddress' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1565: Function 'getOrderShippingMethod' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::1604: Function 'getOrderShippingMethod' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1589: Function 'normalizeProductOptionRecord' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::1628: Function 'normalizeProductOptionRecord' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1599: Function 'normalizeProductOption' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::1638: Function 'normalizeProductOption' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1617: Function 'normalizeOrderLineItem' has a complexity of 19. Maximum allowed is 7.",
+      "value": "server/server.js::1656: Function 'normalizeOrderLineItem' has a complexity of 19. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1654: Function 'buildCarrierTrackingUrl' has a complexity of 13. Maximum allowed is 7.",
+      "value": "server/server.js::1693: Function 'buildCarrierTrackingUrl' has a complexity of 13. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1677: Function 'normalizeShipmentTrack' has a complexity of 25. Maximum allowed is 7.",
+      "value": "server/server.js::1716: Function 'normalizeShipmentTrack' has a complexity of 25. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1753: Function 'buildOrderActionAvailability' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::1792: Function 'buildOrderActionAvailability' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1812: Function 'hasPrestaShopShippingAddress' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::1866: Function 'hasPrestaShopShippingAddress' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1821: Function 'normalizeOrderRecord' has a complexity of 61. Maximum allowed is 7.",
+      "value": "server/server.js::1875: Function 'normalizeOrderRecord' has a complexity of 61. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1893: Function 'normalizeGuestCustomerFromOrder' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::1947: Function 'normalizeGuestCustomerFromOrder' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1923: Function 'buildSearchQuery' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::1977: Function 'buildSearchQuery' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::1967: Function 'buildOrderSearchText' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::2021: Function 'buildOrderSearchText' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2028: Async function 'searchStoreOrders' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2082: Async function 'searchStoreOrders' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2161: Function 'storeHasRegisteredCustomerEmail' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2215: Function 'storeHasRegisteredCustomerEmail' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2210: Arrow function has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::2264: Arrow function has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2237: Arrow function has a complexity of 12. Maximum allowed is 7.",
+      "value": "server/server.js::2291: Arrow function has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2261: Async function 'finalizePrestaShopSidebarData' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::2315: Async function 'finalizePrestaShopSidebarData' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2301: Async function 'collectGlobalPrestaShopSearchData' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2355: Async function 'collectGlobalPrestaShopSearchData' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2357: Async function 'collectPrestaShopSidebarData' has a complexity of 26. Maximum allowed is 7.",
+      "value": "server/server.js::2411: Async function 'collectPrestaShopSidebarData' has a complexity of 26. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2586: Function 'buildFreshdeskContactPayloadFromPrestaShopCustomer' has a complexity of 10. Maximum allowed is 7.",
+      "value": "server/server.js::2643: Function 'buildFreshdeskContactPayloadFromPrestaShopCustomer' has a complexity of 10. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2635: Function 'normalizeFreshdeskDefaultPayloadValue' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2692: Function 'normalizeFreshdeskDefaultPayloadValue' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2679: Arrow function has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::2736: Arrow function has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2714: Function 'getFreshdeskMissingCustomFieldFallback' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::2771: Function 'getFreshdeskMissingCustomFieldFallback' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2741: Arrow function has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2798: Arrow function has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2782: Async function 'syncFreshdeskContactForPrestaShopCustomer' has a complexity of 16. Maximum allowed is 7.",
+      "value": "server/server.js::2839: Async function 'syncFreshdeskContactForPrestaShopCustomer' has a complexity of 16. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2852: Function 'buildOrderCreatedTicketDescription' has a complexity of 9. Maximum allowed is 7.",
+      "value": "server/server.js::2909: Function 'buildOrderCreatedTicketDescription' has a complexity of 9. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2878: Async function 'createFreshdeskTicketForPrestaShopEvent' has a complexity of 12. Maximum allowed is 7.",
+      "value": "server/server.js::2935: Async function 'createFreshdeskTicketForPrestaShopEvent' has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2908: Async function 'processPrestaShopCustomerEvent' has a complexity of 13. Maximum allowed is 7.",
+      "value": "server/server.js::2965: Async function 'processPrestaShopCustomerEvent' has a complexity of 13. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::2934: Async function 'processPrestaShopOrderCreatedEvent' has a complexity of 35. Maximum allowed is 7.",
+      "value": "server/server.js::2991: Async function 'processPrestaShopOrderCreatedEvent' has a complexity of 35. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3091: Function 'buildExternalEventPayloadDiagnostics' has a complexity of 17. Maximum allowed is 7.",
+      "value": "server/server.js::3148: Function 'buildExternalEventPayloadDiagnostics' has a complexity of 17. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3182: Function 'buildPrestaShopExtensionShippingPayload' has a complexity of 12. Maximum allowed is 7.",
+      "value": "server/server.js::3239: Function 'buildPrestaShopExtensionShippingPayload' has a complexity of 12. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3251: Async method 'onExternalEvent' has a complexity of 40. Maximum allowed is 7.",
+      "value": "server/server.js::3308: Async method 'onExternalEvent' has a complexity of 40. Maximum allowed is 7.",
       "type": "lint"
     },
     {
       "severity": 1,
-      "value": "server/server.js::3307: Async method 'onScheduledEvent' has a complexity of 8. Maximum allowed is 7.",
+      "value": "server/server.js::3364: Async method 'onScheduledEvent' has a complexity of 8. Maximum allowed is 7.",
       "type": "lint"
     }
   ],

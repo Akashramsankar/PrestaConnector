@@ -222,9 +222,39 @@ class FreshdeskConnectorApiModuleFrontController extends ModuleFrontController
             'total_discounts_tax_incl' => $order->total_discounts_tax_incl,
             'total_paid_tax_incl' => $order->total_paid_tax_incl,
             'payment' => $order->payment,
-            'shipping_address' => (array) $delivery,
-            'billing_address' => (array) $invoice,
+            'shipping_address' => self::addressPayload($delivery),
+            'billing_address' => self::addressPayload($invoice),
             'items' => $order->getProducts(),
+        ];
+    }
+
+    private static function addressPayload(Address $address)
+    {
+        $country = new Country((int) $address->id_country);
+        $languageId = (int) Context::getContext()->language->id;
+
+        return [
+            'id' => (int) $address->id,
+            'id_customer' => (int) $address->id_customer,
+            'id_country' => (int) $address->id_country,
+            'country_id' => (int) $address->id_country,
+            'country_iso' => Validate::isLoadedObject($country) ? (string) $country->iso_code : '',
+            'country' => isset($country->name[$languageId]) ? (string) $country->name[$languageId] : '',
+            'id_state' => (int) $address->id_state,
+            'alias' => (string) $address->alias,
+            'company' => (string) $address->company,
+            'firstname' => (string) $address->firstname,
+            'lastname' => (string) $address->lastname,
+            'address1' => (string) $address->address1,
+            'address2' => (string) $address->address2,
+            'postcode' => (string) $address->postcode,
+            'city' => (string) $address->city,
+            'phone' => (string) $address->phone,
+            'phone_mobile' => (string) $address->phone_mobile,
+            'vat_number' => (string) $address->vat_number,
+            'dni' => (string) $address->dni,
+            'date_add' => (string) $address->date_add,
+            'date_upd' => (string) $address->date_upd,
         ];
     }
 
@@ -277,8 +307,59 @@ class FreshdeskConnectorApiModuleFrontController extends ModuleFrontController
         $address->city = (string) ($payload['city'] ?? $address->city);
         $address->postcode = (string) ($payload['postcode'] ?? $address->postcode);
         $address->phone = (string) ($payload['telephone'] ?? $address->phone);
-        $address->id_country = (int) ($payload['countryId'] ?? $address->id_country);
+        $countryId = $this->resolveCountryId((string) ($payload['countryId'] ?? ''), (int) $address->id_country);
+        if ($countryId <= 0) {
+            throw new Exception('Shipping country is not valid.');
+        }
+
+        $address->id_country = $countryId;
+        $address->id_state = $this->resolveStateId((string) ($payload['regionId'] ?? $payload['region'] ?? ''), $countryId);
         $address->update();
+    }
+
+    private function resolveCountryId($value, $fallbackId)
+    {
+        $cleaned = trim((string) $value);
+        if ($cleaned === '') {
+            return (int) $fallbackId;
+        }
+
+        if (ctype_digit($cleaned)) {
+            $country = new Country((int) $cleaned);
+            return Validate::isLoadedObject($country) ? (int) $country->id : 0;
+        }
+
+        if (strlen($cleaned) === 2) {
+            $countryId = (int) Country::getByIso(strtoupper($cleaned));
+            if ($countryId > 0) {
+                return $countryId;
+            }
+        }
+
+        $row = Db::getInstance()->getRow(
+            'SELECT id_country FROM '._DB_PREFIX_.'country_lang WHERE name = "'.pSQL($cleaned).'"'
+        );
+
+        return $row && isset($row['id_country']) ? (int) $row['id_country'] : 0;
+    }
+
+    private function resolveStateId($value, $countryId)
+    {
+        $cleaned = trim((string) $value);
+        if ($cleaned === '') {
+            return 0;
+        }
+
+        if (ctype_digit($cleaned)) {
+            $state = new State((int) $cleaned);
+            return Validate::isLoadedObject($state) && (int) $state->id_country === (int) $countryId ? (int) $state->id : 0;
+        }
+
+        $row = Db::getInstance()->getRow(
+            'SELECT id_state FROM '._DB_PREFIX_.'state WHERE id_country = '.(int) $countryId.' AND (iso_code = "'.pSQL($cleaned).'" OR name = "'.pSQL($cleaned).'")'
+        );
+
+        return $row && isset($row['id_state']) ? (int) $row['id_state'] : 0;
     }
 
     private function listOrderCarriers($orderId)
