@@ -862,7 +862,6 @@ function renderActiveOrderPanel(order, isActionLoading) {
     const shipping = order.shipping_address || {};
     return `
       <div class="meta-block" data-order-panel="${escapeAttribute(orderKey)}" style="margin-top: 10px;">
-        <div class="meta-label">Edit Shipping Address</div>
         <div class="card-grid" style="margin-top: 8px;">
           <div class="field">
             <label for="shipping-first-name-${escapeAttribute(orderKey)}">First Name</label>

@@ -612,7 +612,7 @@ function normalizeRequiredFreshdeskFields(fields, category) {
   const autofilledFields = category === "contact" ? FRESHDESK_CONTACT_AUTOFILLED_FIELDS : FRESHDESK_TICKET_AUTOFILLED_FIELDS;
   return (Array.isArray(fields) ? fields : [])
     .map((field) => normalizeFreshdeskField(field, category))
-    .filter((field) => field && !autofilledFields.has(field.apiName) && shouldShowFreshdeskRequiredField(field, category));
+    .filter((field) => field && !autofilledFields.has(field.apiName) && shouldShowFreshdeskRequiredField(field));
 }
 
 function normalizeFreshdeskField(field, category) {
@@ -658,7 +658,7 @@ function getFreshdeskApiFieldName(fieldName, category) {
   return ticketFieldMap[normalizedName] || normalizedName;
 }
 
-function shouldShowFreshdeskRequiredField(field, category) {
+function shouldShowFreshdeskRequiredField(field) {
   if (!isFreshdeskCustomField(field.apiName)) {
     return false;
   }
@@ -1480,6 +1480,9 @@ async function validate() {
 
   return true;
 }
+
+window.getConfigs = getConfigs;
+window.validate = validate;
 
 async function invokeServerFunction(name, body) {
   const result = await state.client.request.invoke(name, {
