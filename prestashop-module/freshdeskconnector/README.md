@@ -12,6 +12,12 @@ Public repository:
 https://github.com/Akashramsankar/PrestaConnector
 ```
 
+Installable module ZIP:
+
+```text
+https://github.com/Akashramsankar/PrestaConnector/releases/latest/download/freshdeskconnector.zip
+```
+
 Module folder:
 
 ```text
@@ -24,7 +30,23 @@ Repository ZIP:
 https://github.com/Akashramsankar/PrestaConnector/archive/refs/heads/master.zip
 ```
 
-## Install From GitHub
+## Install From GitHub Release
+
+Download `freshdeskconnector.zip` from the latest GitHub release:
+
+```text
+https://github.com/Akashramsankar/PrestaConnector/releases/latest/download/freshdeskconnector.zip
+```
+
+In PrestaShop Back Office, upload and install the ZIP from:
+
+```text
+Modules > Module Manager > Upload a module
+```
+
+Then open `Freshdesk Connector` and click `Configure`.
+
+## Install From GitHub Source
 
 From the PrestaShop project root, run:
 

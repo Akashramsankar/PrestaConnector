@@ -7,10 +7,11 @@ Freshdesk app and companion PrestaShop module for connecting PrestaShop customer
 The PrestaShop webhook/API companion module is available publicly on GitHub:
 
 - Repository: https://github.com/Akashramsankar/PrestaConnector
+- Installable module ZIP: https://github.com/Akashramsankar/PrestaConnector/releases/latest/download/freshdeskconnector.zip
 - Module folder: https://github.com/Akashramsankar/PrestaConnector/tree/master/prestashop-module/freshdeskconnector
 - Download ZIP: https://github.com/Akashramsankar/PrestaConnector/archive/refs/heads/master.zip
 
-Install the `prestashop-module/freshdeskconnector` folder into the PrestaShop `modules/` directory, then install and configure the module from the PrestaShop Back Office.
+Upload `freshdeskconnector.zip` from the latest GitHub release in PrestaShop Back Office, or install the `prestashop-module/freshdeskconnector` folder into the PrestaShop `modules/` directory. Then install and configure the module from the PrestaShop Back Office.
 
 ## Freshdesk App Package
 
